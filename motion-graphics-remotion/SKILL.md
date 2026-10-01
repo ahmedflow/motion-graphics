@@ -22,6 +22,7 @@ Two choices always belong to the user and must be asked every time, even when yo
    ```bash
    node <skill-dir>/scripts/setup.mjs <project-folder>
    ```
+   **Never put the project in a cloud-synced folder** (OneDrive — on Windows `Documents` is often inside it — Dropbox, iCloud, Google Drive). `node_modules` is ~21k small files; the sync client locks them while uploading and the user's folders freeze. Use `C:\Projects\<name>` on Windows or `~/Projects/<name>` elsewhere. The script redirects a cloud path there automatically and prints the real folder — work from the path it prints. Finished MP4s can be copied to the cloud folder afterwards.
 3. Verify it works by rendering one still: `npx remotion still Demo out/check.jpg --frame=60 --scale=0.4` and look at it. Remotion downloads its own headless Chrome on first render — that's expected.
 4. Tell the user they can preview live any time with `npm run studio`.
 

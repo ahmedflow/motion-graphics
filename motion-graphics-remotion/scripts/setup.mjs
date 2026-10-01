@@ -1,14 +1,34 @@
 #!/usr/bin/env node
 // Creates a Remotion motion-graphics project with the animation kit + a demo composition.
-// Usage: node setup.mjs <project-folder>
+// Usage: node setup.mjs <project-folder> [--allow-cloud]
+//
+// Projects never live in a cloud-synced folder (OneDrive, Dropbox, iCloud, Google Drive):
+// node_modules alone is ~21k small files, and the sync client locks them while uploading,
+// which makes Explorer/Finder freeze and installs/renders hang. A target inside such a folder
+// is redirected to C:\Projects\<name> (Windows) or ~/Projects/<name>. --allow-cloud overrides.
 import {execSync} from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const template = path.resolve(here, '../assets/template');
-const target = path.resolve(process.argv[2] || 'motion-project');
+const args = process.argv.slice(2);
+const allowCloud = args.includes('--allow-cloud');
+const requested = path.resolve(args.find((a) => !a.startsWith('--')) || 'motion-project');
+
+const cloudRoots = [process.env.OneDrive, process.env.OneDriveConsumer, process.env.OneDriveCommercial].filter(Boolean).map((p) => path.resolve(p).toLowerCase());
+const inCloud = (p) => {
+	const lower = p.toLowerCase();
+	return cloudRoots.some((r) => lower === r || lower.startsWith(r + path.sep)) || /[\\/](onedrive[^\\/]*|dropbox|icloud ?drive|mobile documents|google ?drive|my drive)([\\/]|$)/i.test(p);
+};
+const projectsRoot = process.platform === 'win32' ? 'C:\\Projects' : path.join(os.homedir(), 'Projects');
+let target = requested;
+if (!allowCloud && inCloud(requested)) {
+	target = path.join(projectsRoot, path.basename(requested));
+	console.log(`\n⚠ ${requested}\n  is inside a cloud-synced folder (OneDrive/Dropbox/iCloud/Google Drive).\n  Syncing node_modules (~21k files) freezes the folder, so the project goes here instead:\n  → ${target}\n  (Put only finished MP4s in the cloud folder. Pass --allow-cloud to override.)\n`);
+}
 
 const major = Number(process.versions.node.split('.')[0]);
 if (major < 18) {
