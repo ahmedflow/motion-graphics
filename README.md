@@ -39,6 +39,8 @@
 6. يبني الفيديو بحركة كاميرا سلسة وبدون blur، مع موسيقى ومؤثرات صوتية قليلة. وإذا عندك فويس أوفر، يضبط كل شي على توقيته.
 7. يرندر لقطات ثابتة يشيك عليها، وبعدها يرندر الفيديو ويرسله لك. وبعد كذا تعدلون مع بعض.
 
+**وين ينحفظ كل شي؟** المشروع والفيديو النهائي ينحفظون في المجلد اللي فتحت منه الجلسة. إذا كان مجلدك متزامن مع OneDrive أو Dropbox أو iCloud أو Google Drive، ينحفظ كود المشروع في `C:Projects` (أو `~/Projects` على ماك ولينكس) عشان ما يعلّق جهازك، والفيديو النهائي يبقى في مجلدك.
+
 ## محتوى السكيل
 
 - `SKILL.md`: خطوات العمل.
@@ -61,3 +63,5 @@
 - Claude Code: copy the `motion-graphics-remotion/` folder into `~/.claude/skills/`.
 
 Requires Node.js 18+. Then just ask Claude: *"make me a motion graphic about …"*.
+
+**Where files go:** the project and the finished video are saved in the folder you opened the session in. If that folder is synced to OneDrive, Dropbox, iCloud or Google Drive, the project code goes to `C:Projects` (or `~/Projects`) so the sync client doesn't freeze your machine, and the finished video still lands in your folder.

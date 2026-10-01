@@ -2,7 +2,8 @@
 // Creates a Remotion motion-graphics project with the animation kit + a demo composition.
 // Usage: node setup.mjs <project-folder> [--allow-cloud]
 //
-// Projects never live in a cloud-synced folder (OneDrive, Dropbox, iCloud, Google Drive):
+// The project is created where asked (normally inside the user's working folder), except in a
+// cloud-synced folder (OneDrive, Dropbox, iCloud, Google Drive):
 // node_modules alone is ~21k small files, and the sync client locks them while uploading,
 // which makes Explorer/Finder freeze and installs/renders hang. A target inside such a folder
 // is redirected to C:\Projects\<name> (Windows) or ~/Projects/<name>. --allow-cloud overrides.
@@ -114,8 +115,15 @@ const run = (cmd) => {
 run('npm install remotion @remotion/cli @remotion/google-fonts @remotion/paths @remotion/shapes react react-dom');
 run('npm install -D typescript @types/react');
 
+// finished videos always go to the folder the user chose, even when the code was redirected
+const videoDir = path.dirname(requested);
 console.log(`
-Done. Next:
+Done.
+  Project (code):   ${target}
+  Finished videos:  ${videoDir}
+  Render with:      npx remotion render <Id> "${path.join(videoDir, '<name>.mp4')}"
+
+Next:
   cd "${target}"
   npx tsc -p .                                   # type-check
   npx remotion still Demo out/check.jpg --frame=90 --scale=0.4

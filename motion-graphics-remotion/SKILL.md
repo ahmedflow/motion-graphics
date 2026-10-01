@@ -20,9 +20,16 @@ Two choices always belong to the user and must be asked every time, even when yo
 1. Check Node.js: `node -v` (needs ≥ 18). If missing, tell the user to install the LTS from https://nodejs.org and come back — don't download installers yourself.
 2. Create the project with the bundled script (it writes package.json, installs Remotion + fonts + helpers, and copies a starter template with the animation kit):
    ```bash
-   node <skill-dir>/scripts/setup.mjs <project-folder>
+   node <skill-dir>/scripts/setup.mjs "<user's working folder>/<project-name>"
    ```
-   **Never put the project in a cloud-synced folder** (OneDrive — on Windows `Documents` is often inside it — Dropbox, Google Drive, or iCloud — on a Mac, `~/Documents` and `~/Desktop` sync to iCloud when "Desktop & Documents Folders" is on). `node_modules` is ~21k small files; the sync client locks them while uploading and the user's folders freeze. Use `C:\Projects\<name>` on Windows or `~/Projects/<name>` elsewhere. The script redirects a cloud path there automatically and prints the real folder — work from the path it prints. Finished MP4s can be copied to the cloud folder afterwards.
+   **Where things go** — the user's working folder is the folder the session was opened in (the one they chose):
+
+   | User's working folder | Project (code) | Finished video |
+   |---|---|---|
+   | Normal, local folder | `<working folder>/<project-name>` | `<working folder>/<name>.mp4` |
+   | Cloud-synced (OneDrive, Dropbox, iCloud, Google Drive) | `C:\Projects\<project-name>` or `~/Projects/<project-name>` | `<working folder>/<name>.mp4` |
+
+   Always pass the working folder to the script and let it decide — don't pick `C:\Projects` yourself. The script checks whether the path is really cloud-synced (on Windows `Documents` is often inside OneDrive; on a Mac `~/Documents` and `~/Desktop` sync to iCloud when "Desktop & Documents Folders" is on), and only then redirects, because `node_modules` is ~21k small files and the sync client locks them while uploading, freezing the user's folders. Work from the project path it prints. If it redirected, tell the user why in one line. Either way the finished video goes into the working folder (step 7).
 3. Verify it works by rendering one still: `npx remotion still Demo out/check.jpg --frame=60 --scale=0.4` and look at it. Remotion downloads its own headless Chrome on first render — that's expected.
 4. Tell the user they can preview live any time with `npm run studio`.
 
@@ -93,8 +100,10 @@ Sound: the music carries the video, and sound effects are used with judgment —
 
 1. `npx tsc -p .` must pass.
 2. Render stills at key frames (one per phrase at `--scale=0.3`) and **look at them**: overlaps, text clipped by the edge, things off-screen, captions colliding with content. Fix before the full render.
-3. Render: `npx remotion render <CompositionId> out/<name>.mp4`.
-4. Send the MP4 to the user, then summarize in a few lines what's in each scene and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
+3. Render **straight into the user's working folder** (the folder the session was opened in), not only into the project's `out/`:
+   `npx remotion render <CompositionId> "<user's working folder>/<name>.mp4"`
+   The user picked that folder on purpose and expects the video there — a video left only in `C:\Projects\...\out` counts as not delivered. A single MP4 is fine in a cloud-synced folder; only the project (`node_modules`) must stay out of it. Re-renders after changes go to the same place (overwrite, or `<name>-v2.mp4` if the user wants to keep versions).
+4. Tell the user the full path of the saved MP4 (as a clickable link), send it to them, then summarize in a few lines what's in each scene and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
 
 ### 8. Iterate
 
