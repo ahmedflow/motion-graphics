@@ -72,7 +72,7 @@ Write a short storyboard: one line per spoken phrase (or per beat if no VO) → 
 
 **Ask first who writes it.** Before writing anything, ask (as a choice): "Shall I write the storyboard, or would you like to write it yourself?" If they write it, take theirs as the plan (and only suggest additions if a line has no visual).
 
-**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen · camera — in the user's language. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
+**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen · **UI component (21st.dev)** · camera — in the user's language. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
 
 Then ask for approval **as a choice with two options**, not as an open question:
 1. Good — start building
@@ -80,15 +80,27 @@ Then ask for approval **as a choice with two options**, not as an open question:
 
 If you use a question tool, the storyboard goes in the message *before* the question.
 
-### 5. Gather assets (real images, logos, components)
+### 5. Gather assets — UI components first, then images
 
-- **21st.dev components**: when a scene contains UI (input box, cards, chat, pricing, etc.), find a fitting component on https://21st.dev and port it. `references/21st-dev.md` explains how to get the source from the registry JSON and convert it to frame-driven Remotion code.
+#### 5a. 21st.dev components (required for every scene with UI)
+
+This step is easy to skip by accident — e.g. "this video has no photos, so step 5 is done" — and users notice when the UI looks home-made. 21st.dev components are designed by real UI designers, and they are a big part of what makes the video look like a studio made it. So treat it as a **required step**, separate from images. It applies even when the video needs no photos at all.
+
+1. For every row of the storyboard whose UI column isn't "—", search https://21st.dev (categories: AI Chats, Search Bars / Inputs, Cards, Buttons, Notifications, Pricing, Tables, Dashboards…). Open the candidates and screenshot them. Pick the one closest to the reference's style.
+2. **Before building, show the user a short list in chat**: scene → component name, author, link, one line on why it fits. Then carry on (no need to wait unless they object).
+3. Port each one as described in `references/21st-dev.md` (source from the registry JSON → inline styles, frame-driven props). Restyle its colours/fonts to the video's palette, but keep its structure and details.
+4. Only if you genuinely found nothing that fits a scene, say so in that list ("searched: AI chat, prompt input — nothing close to the style, drawing it myself"). Drawing UI from scratch without searching first is not allowed.
+
+#### 5b. Real images, logos, icons
+
 - **Real photos / logos / flags — every image must show exactly what that line says.** Before searching, write for each storyboard line the specific image it needs (who/what, which moment, place, era — e.g. "Messi lifting the World Cup, Qatar 2022", not "Messi"). Search with specific queries (`node <skill-dir>/scripts/commons-search.mjs "query"`, plus Unsplash / Pexels in the browser for generic topics), open every candidate and look at it, and only keep it if it clearly shows that subject. A random or loosely related photo is worse than none: if nothing fits, use the real logo, a drawn illustration, an icon or big text for that line instead. When proposing images, say which line each one is for and why it matches. Details in `references/assets-and-rights.md`.
 - **Always ask before downloading**: list each file (what it is, which line it serves, source, license, size) and wait for a yes.
 - **No credits or sources inside the video.** Don't add a credits/sources end card, fine print or watermark-style attributions — users find it annoying and it ruins the ending. Keep sources in `public/<project>/CREDITS.md` and, if the video will be published and something needs attribution, give the user a ready-to-paste credit line for the post caption / description (that satisfies CC BY). Prefer sources that need no attribution at all (Pixabay, Unsplash, Pexels, public-domain / CC0 files).
 - Draw anything that doesn't exist as a licensed image yourself (icons, trophies, napkins, charts) as SVG line art.
 
 ### 6. Build
+
+Before writing the first scene, check: does every UI scene have its 21st.dev component from 5a, or a stated reason it doesn't? If not, go back to 5a.
 
 Use the kit in `src/kit/` (copied by setup). It already contains: easing presets, `Caption` (word-by-word mask reveal, RTL-safe), `Photo` (rounded frame, mask reveal, slow drift, optional outline), `Hair` (self-drawing line), `Num`, `World`/`Board`/camera keyframes, `Sfx`, and `Backdrop`.
 
@@ -103,7 +115,7 @@ Sound: the music carries the video, and sound effects are used with judgment —
 3. Render **straight into the user's working folder** (the folder the session was opened in), not only into the project's `out/`:
    `npx remotion render <CompositionId> "<user's working folder>/<name>.mp4"`
    The user picked that folder on purpose and expects the video there — a video left only in `C:\Projects\...\out` counts as not delivered. A single MP4 is fine in a cloud-synced folder; only the project (`node_modules`) must stay out of it. Re-renders after changes go to the same place (overwrite, or `<name>-v2.mp4` if the user wants to keep versions).
-4. Tell the user the full path of the saved MP4 (as a clickable link), send it to them, then summarize in a few lines what's in each scene and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
+4. Tell the user the full path of the saved MP4 (as a clickable link), send it to them, then summarize in a few lines what's in each scene, **which 21st.dev component (name + author) each UI scene uses**, and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
 
 ### 8. Iterate
 
