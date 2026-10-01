@@ -1,20 +1,39 @@
 # Music and sound effects
 
+## First: ask which music
+
+Never pick the music silently, and never copy the soundtrack of a previous project or example — users notice when two different videos share the same track. Ask the user to choose (step 3 of SKILL.md): calm piano, upbeat electronic, lo-fi, ambient, cinematic, no music, or their own file.
+
 ## Generate instead of downloading
 
 `scripts/synth-audio.mjs` synthesizes everything from math — no licensing questions:
 
 ```bash
-node <skill-dir>/scripts/synth-audio.mjs public/<project> --mood calm --bpm 72 --seconds 42 --lift 32.7 --end 38.9
-node <skill-dir>/scripts/synth-audio.mjs public/<project> --mood upbeat --bpm 120 --seconds 25 --drop 2.5 --end 23.2
+node <skill-dir>/scripts/synth-audio.mjs public/<project> --mood <mood> --seconds <video length> [options]
 ```
 
-Outputs `music.wav` plus a small SFX set: `key1-4.wav` (soft keyboard), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`.
+| mood | sound | good for | useful options |
+|---|---|---|---|
+| `calm` | felt piano arpeggios + pad | storytelling under a narration | `--lift <s>` where it turns brighter (the win / climax) |
+| `upbeat` | electronic, riser → drop, kick/clap/hats, plucks | product launch, energy | `--drop <s>` where the beat comes in |
+| `lofi` | Rhodes chords, dusty swung drums, vinyl | chill, lifestyle, food, study | `--drop <s>` where drums enter |
+| `ambient` | slow evolving pads, sparse bells, no drums | tech, minimal, luxury, calm explainers | — |
+| `cinematic` | low string ostinato, building toms, big final chord | epic, sport, trailers, achievements | — |
+| `none` | no music, only the SFX set | voice-only, or the user brings music | — |
 
-- **calm**: felt-piano arpeggios + pad, minor story progression, optional `--lift` (seconds) where it turns brighter (e.g. the win), final major chord at `--end`. Great under narration.
-- **upbeat**: electronic 120 BPM, filtered intro, riser into `--drop`, kick/clap/hats, plucks, sidechain pump, final hit at `--end`. Great for product launches without voice.
+Common options: `--seconds` (length), `--end <s>` (final chord / hit, default length − 2.5), `--bpm`, `--key C/D/E/F/G/A/Bb…`, `--scale major|minor`, `--no-sfx`.
 
-Offer both moods if the user hasn't chosen — one render per soundtrack is cheap (two `<Composition>`s with a `music` prop).
+**Every run is different**: key, chord progression and arpeggio pattern are random unless you pass `--seed`. The script prints the seed/key/scale it used — note it, so if the user likes a version you can regenerate exactly that one (e.g. after changing the length). If the user says "change the music" without naming a style, re-run with the same mood (new seed) or offer another mood.
+
+Line up the music with the story: put `--drop` / `--lift` on the moment the video turns (the reveal, the win), and `--end` on the last beat of the video.
+
+Offering two soundtracks is cheap: generate two moods into different folders and register two `<Composition>`s with a `music` prop; render both and let the user choose.
+
+If the user supplies their own music file, put it in `public/<project>/` and remind them they need the rights to publish it.
+
+## SFX set
+
+Written next to the music (skip with `--no-sfx`): `key1-4.wav` (soft keyboard), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`.
 
 ## How much sound
 
