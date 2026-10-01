@@ -86,10 +86,12 @@ If you use a question tool, the storyboard goes in the message *before* the ques
 
 This step is easy to skip by accident — e.g. "this video has no photos, so step 5 is done" — and users notice when the UI looks home-made. 21st.dev components are designed by real UI designers, and they are a big part of what makes the video look like a studio made it. So treat it as a **required step**, separate from images. It applies even when the video needs no photos at all.
 
-1. For every row of the storyboard whose UI column isn't "—", search https://21st.dev (categories: AI Chats, Search Bars / Inputs, Cards, Buttons, Notifications, Pricing, Tables, Dashboards…). Open the candidates and screenshot them. Pick the one closest to the reference's style.
-2. **Before building, show the user a short list in chat**: scene → component name, author, link, one line on why it fits. Then carry on (no need to wait unless they object).
-3. Port each one as described in `references/21st-dev.md` (source from the registry JSON → inline styles, frame-driven props). Restyle its colours/fonts to the video's palette, but keep its structure and details.
-4. Only if you genuinely found nothing that fits a scene, say so in that list ("searched: AI chat, prompt input — nothing close to the style, drawing it myself"). Drawing UI from scratch without searching first is not allowed.
+This is your call, not the user's: **don't ask the user to approve components or show them options** — users find the extra questions tiring. Search, choose, and build.
+
+1. For every row of the storyboard whose UI column isn't "—", search https://21st.dev (categories: AI Chats, Search Bars / Inputs, Cards, Buttons, Notifications, Pricing, Tables, Dashboards…). Open the candidates and screenshot them. Pick the one closest to the reference's style yourself.
+2. Port each one as described in `references/21st-dev.md` (source from the registry JSON → inline styles, frame-driven props). Restyle its colours/fonts to the video's palette, but keep its structure and details.
+3. Only draw a UI yourself if you genuinely searched and found nothing that fits that scene. Drawing UI from scratch without searching first is not allowed.
+4. Keep a note for the delivery summary (step 7): scene → component name, author, link — or, for a scene you drew yourself, what you searched for.
 
 #### 5b. Real images, logos, icons
 
@@ -115,7 +117,7 @@ Sound: the music carries the video, and sound effects are used with judgment —
 3. Render **straight into the user's working folder** (the folder the session was opened in), not only into the project's `out/`:
    `npx remotion render <CompositionId> "<user's working folder>/<name>.mp4"`
    The user picked that folder on purpose and expects the video there — a video left only in `C:\Projects\...\out` counts as not delivered. A single MP4 is fine in a cloud-synced folder; only the project (`node_modules`) must stay out of it. Re-renders after changes go to the same place (overwrite, or `<name>-v2.mp4` if the user wants to keep versions).
-4. Tell the user the full path of the saved MP4 (as a clickable link), send it to them, then summarize in a few lines what's in each scene, **which 21st.dev component (name + author) each UI scene uses**, and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
+4. Tell the user the full path of the saved MP4 (as a clickable link), send it to them, then summarize in a few lines what's in each scene, **which 21st.dev component (name + author + link) each UI scene uses** (or what you searched for, if you had to draw one yourself), and what you assumed. Be honest that you can't hear audio — ask the user to check timing and sound.
 
 ### 8. Iterate
 
