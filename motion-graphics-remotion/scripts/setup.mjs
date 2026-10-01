@@ -18,12 +18,38 @@ const args = process.argv.slice(2);
 const allowCloud = args.includes('--allow-cloud');
 const requested = path.resolve(args.find((a) => !a.startsWith('--')) || 'motion-project');
 
-const cloudRoots = [process.env.OneDrive, process.env.OneDriveConsumer, process.env.OneDriveCommercial].filter(Boolean).map((p) => path.resolve(p).toLowerCase());
-const inCloud = (p) => {
-	const lower = p.toLowerCase();
-	return cloudRoots.some((r) => lower === r || lower.startsWith(r + path.sep)) || /[\\/](onedrive[^\\/]*|dropbox|icloud ?drive|mobile documents|google ?drive|my drive)([\\/]|$)/i.test(p);
+const home = os.homedir();
+const cloudRoots = [process.env.OneDrive, process.env.OneDriveConsumer, process.env.OneDriveCommercial].filter(Boolean).map((p) => path.resolve(p));
+// macOS "Desktop & Documents Folders" in iCloud: ~/Documents and ~/Desktop sync although their path says nothing about iCloud.
+if (process.platform === 'darwin') {
+	const cloudDocs = path.join(home, 'Library', 'Mobile Documents', 'com~apple~CloudDocs');
+	for (const name of ['Documents', 'Desktop']) {
+		if (fs.existsSync(path.join(cloudDocs, name))) cloudRoots.push(path.join(home, name));
+	}
+}
+// resolve symlinks (e.g. ~/Dropbox -> ~/Library/CloudStorage/Dropbox) on the nearest folder that already exists
+const realish = (p) => {
+	let dir = p;
+	const rest = [];
+	while (!fs.existsSync(dir) && path.dirname(dir) !== dir) {
+		rest.unshift(path.basename(dir));
+		dir = path.dirname(dir);
+	}
+	try {
+		return path.join(fs.realpathSync(dir), ...rest);
+	} catch {
+		return p;
+	}
 };
-const projectsRoot = process.platform === 'win32' ? 'C:\\Projects' : path.join(os.homedir(), 'Projects');
+const inCloud = (p) =>
+	[p, realish(p)].some((q) => {
+		const lower = q.toLowerCase();
+		return (
+			cloudRoots.some((r) => lower === r.toLowerCase() || lower.startsWith(r.toLowerCase() + path.sep)) ||
+			/[\\/](onedrive[^\\/]*|dropbox|icloud ?drive|mobile documents|cloudstorage|google ?drive|my drive)([\\/]|$)/i.test(q)
+		);
+	});
+const projectsRoot = process.platform === 'win32' ? 'C:\\Projects' : path.join(home, 'Projects');
 let target = requested;
 if (!allowCloud && inCloud(requested)) {
 	target = path.join(projectsRoot, path.basename(requested));
