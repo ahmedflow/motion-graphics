@@ -2,9 +2,26 @@
 
 ## First: ask which music
 
-Never pick the music silently, and never copy the soundtrack of a previous project or example — users notice when two different videos share the same track. Ask the user to choose (step 3 of SKILL.md): calm piano, upbeat electronic, lo-fi, ambient, cinematic, no music, or their own file.
+Never pick the music silently, and never copy the soundtrack of a previous project or example — users notice when two different videos share the same track. Ask the user (step 3 of SKILL.md) for the **feel** (calm, energetic, chill, minimal, epic, or none) and the **source**: the real music library (A, recommended), generated music (B), or their own file.
 
-## Generate instead of downloading
+## Option A — real music library (recommended)
+
+incompetech.com (Kevin MacLeod) has ~1,400 produced tracks with real instruments, free under CC BY 4.0. Much more variety and quality than generated music.
+
+1. Search by feel (and optionally instrument/genre and tempo):
+   ```bash
+   node <skill-dir>/scripts/find-music.mjs --feel "Calming,Relaxed" --q piano --limit 8
+   node <skill-dir>/scripts/find-music.mjs --feel "Uplifting,Driving" --bpm 100-130
+   node <skill-dir>/scripts/find-music.mjs --feels      # all feels with counts
+   ```
+   Feels: Calming, Relaxed, Uplifting, Bright, Bouncy, Grooving, Driving, Epic, Action, Intense, Mysterious, Dark, Somber, Suspenseful, Humorous… Results come in random order, so different projects get different suggestions.
+2. Read the descriptions and pick 3–4 that suit the video (mood, pace, instruments; avoid tracks described as comedic/eerie unless that's the tone). Send them as a short list — title, one line about the sound, and the **preview link** — and let the user listen and choose. You can't hear audio; don't pretend to judge how it sounds.
+3. Download only the chosen track into `public/<project>/music.mp3` (it's their pick, but still mention the size).
+4. Tracks are usually longer than the video: in Remotion use `startFrom` to skip a slow intro if needed, and fade the volume out over the last ~1 s.
+5. Credit (required when published) — add to CREDITS.md and the post description:
+   `"<Title>" Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 4.0`
+
+## Option B — generate instead of downloading
 
 `scripts/synth-audio.mjs` synthesizes everything from math — no licensing questions:
 
@@ -17,11 +34,13 @@ node <skill-dir>/scripts/synth-audio.mjs public/<project> --mood <mood> --second
 | `calm` | felt piano arpeggios + pad | storytelling under a narration | `--lift <s>` where it turns brighter (the win / climax) |
 | `upbeat` | electronic, riser → drop, kick/clap/hats, plucks | product launch, energy | `--drop <s>` where the beat comes in |
 | `lofi` | Rhodes chords, dusty swung drums, vinyl | chill, lifestyle, food, study | `--drop <s>` where drums enter |
-| `ambient` | slow evolving pads, sparse bells, no drums | tech, minimal, luxury, calm explainers | — |
+| `ambient` | slow evolving pads, no drums | tech, minimal, luxury, calm explainers | — |
 | `cinematic` | low string ostinato, building toms, big final chord | epic, sport, trailers, achievements | — |
 | `none` | no music, only the SFX set | voice-only, or the user brings music | — |
 
 Common options: `--seconds` (length), `--end <s>` (final chord / hit, default length − 2.5), `--bpm`, `--key C/D/E/F/G/A/Bb…`, `--scale major|minor`, `--sfx` (also write the small SFX set).
+
+Generated music is simple and needs no credit, but it sounds synthetic and one mood always has a similar character — prefer the library when the user wants variety or quality. It contains no random melodic "pings": every note belongs to the continuous bed, so nothing sounds like a sound effect firing for no reason.
 
 **Every run is different**: key, chord progression and arpeggio pattern are random unless you pass `--seed`. The script prints the seed/key/scale it used — note it, so if the user likes a version you can regenerate exactly that one (e.g. after changing the length). If the user says "change the music" without naming a style, re-run with the same mood (new seed) or offer another mood.
 

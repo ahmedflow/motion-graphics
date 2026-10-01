@@ -135,7 +135,6 @@ const prog = progSpec.map((c) => voice(c, mood === 'lofi' || mood === 'ambient')
 const liftProg = liftSpec.map((c) => voice(c, false));
 const PATTERNS = [[1, 2, 3, 2], [0, 2, 1, 3], [1, 3, 2, 3], [0, 1, 2, 3], [2, 1, 3, 1]];
 const pattern = pick(PATTERNS);
-const pentatonic = (scale === 'major' ? [0, 2, 4, 7, 9] : [0, 3, 5, 7, 10]).map((s) => TONIC + 24 + s);
 
 const BEAT = 60 / BPM;
 const BAR = BEAT * 4;
@@ -169,7 +168,6 @@ const pad = (notes, len, gain, att = 1.5) => (t) => {
 	const env = Math.min(1, t / att) * Math.min(1, (len - t) / att);
 	return notes.reduce((s, n) => s + Math.sin(TAU * midi(n) * t) + 0.6 * Math.sin(TAU * midi(n) * 1.004 * t), 0) * env * gain;
 };
-const bell = (n, vel = 1) => (t) => [1, 2.01, 3.03, 4.2].reduce((s, h, k) => s + Math.sin(TAU * midi(n) * h * t) * Math.exp(-t * (1.8 + k * 1.5)) / (k + 1), 0) * Math.min(1, t / 0.004) * vel * 0.08;
 const kick = (t) => Math.sin(TAU * (45 * t + (110 / 28) * (1 - Math.exp(-t * 28)))) * Math.exp(-t * 7);
 const softKick = (t) => Math.sin(TAU * (50 * t + (80 / 30) * (1 - Math.exp(-t * 30)))) * Math.exp(-t * 9) * 0.8;
 const tom = (f0) => (t) => Math.sin(TAU * (f0 * t + (f0 / 12) * (1 - Math.exp(-t * 12)))) * Math.exp(-t * 5);
@@ -264,7 +262,6 @@ if (mood === 'calm') {
 			add(music, t + 2.5 * BEAT + k * 0.01, BEAT * 1.4, rhodes(n, BEAT * 1.4, 2200), (k - 1.5) * 0.25, 0.55);
 		});
 	}
-	for (let t = start; t < END - 0.5; t += BEAT * pick([1, 1.5, 2])) if (rand() < 0.6) add(music, t, 0.9, (x) => Math.sin(TAU * midi(pick(pentatonic)) * x) * Math.exp(-x * 3) * Math.min(1, x / 0.01) * 0.05, 0.9, 0.2);
 	for (let t = start; t < END; t += BAR) {
 		const f = midi(chordAt(t).root);
 		[[0, 1.6 * BEAT], [2.5 * BEAT, 1.2 * BEAT]].forEach(([o, len]) =>
@@ -304,7 +301,6 @@ if (mood === 'calm') {
 		add(music, t, len, (x) => lpL(pad(ch.notes, len, 0.03, 2.5)(x), 700 + 1600 * swell(x), 0.8).low, -0.2);
 		add(music, t, len, pad([ch.root, ch.root + 12], len, 0.02, 2.5), 0.2);
 	}
-	for (let t = BAR; t < END - 1; t += BEAT * pick([2, 3, 4])) add(music, t, 3, bell(pick(pentatonic) + 12, 0.8 + rand() * 0.4), rand() * 1.2 - 0.6);
 	{
 		const [L, R] = music;
 		const bp = svf();
@@ -316,7 +312,6 @@ if (mood === 'calm') {
 		}
 	}
 	add(music, END, 4, pad(finalChord().slice(1, 5), 4, 0.03, 0.4));
-	finalChord().slice(3).forEach((n, k) => add(music, END + k * 0.08, 3, bell(n + 12, 0.9)));
 } else if (mood === 'cinematic') {
 	// low strings ostinato (8ths), building toms, swell, big final chord
 	for (let t = 0, k = 0; t < END; t += BEAT / 2, k++) {
