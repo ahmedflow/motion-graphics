@@ -1,6 +1,18 @@
 # Real photos, logos, flags — finding them and using them properly
 
+## The image must match the line
+
+The most common failure is a photo that's "about the topic" but doesn't show what the narration says at that moment. Viewers notice instantly.
+
+1. For each storyboard line, write the exact image it needs: subject, action/moment, place, era. ("Ronaldo celebrating a goal for Real Madrid", "Old Trafford stadium exterior", "a smartphone showing a chat app" — not just "Ronaldo" or "football".)
+2. Search with those specific words (several phrasings, in English and the local language). Read the file title, description and date.
+3. **Open and look at every candidate.** Keep it only if the subject is clearly visible, recognisable at reel size, and matches the moment. Reject: wrong person/team/era, crowd shots where the subject is a dot, blurry or watermarked files, screenshots, fan art, anything you're unsure about.
+4. If nothing genuinely fits, don't fall back to a random photo — use the real logo/crest/flag, a drawn illustration, an icon, a chart or big typography for that line.
+5. When proposing images, show them as: line → what the image shows → source/license.
+
 ## Where to look
+
+0. **Unsplash / Pexels / Pixabay** (in the browser) — free, **no attribution needed**; best for generic subjects (cities, stadiums, technology, people working, nature). Rarely have specific celebrities.
 
 1. **Wikimedia Commons** — real photos of people, places, stadiums, trophies, flags, many with free licenses. Use the bundled script:
    ```bash
@@ -28,9 +40,12 @@ file public/<project>/<name>.jpg   # make sure it's really an image
 
 Prefer 1920px thumbnails over multi-MB originals.
 
-## Credits
+## Credits — never inside the video
 
-Write `public/<project>/CREDITS.md` (file, original title, author, license). CC BY / CC BY-SA require attribution when the video is published — add a small credit line on screen or an end card. If the user says the video is personal / not published, they may skip on-screen credits; keep the CREDITS file anyway and remind them if they later publish.
+Do **not** put a credits / sources card at the end, fine print, or attribution text anywhere in the video. Users find it annoying, and it spoils the ending. Instead:
+- Record every file in `public/<project>/CREDITS.md` (file, original title, author, license, link).
+- If the video will be published and anything is CC BY / CC BY-SA, give the user a short ready-to-paste credit block for the **post caption / description** — that's a reasonable place for attribution under CC licenses.
+- Prefer sources that need no credit at all (Unsplash, Pexels, Pixabay, public domain, CC0) so there's nothing to add.
 
 ## People and brands
 

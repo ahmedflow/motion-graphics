@@ -48,13 +48,13 @@ Ask only what you can't infer:
 - Length (default 20–40 s)
 - Language of on-screen text (Arabic needs RTL handling — see `references/motion-craft.md`)
 - Voiceover: user records it, AI voice (e.g. ElevenLabs), or none (text + music only). If they need a script, write it — see `references/voiceover.md` for writing scripts and voice-tag advice.
-- **Music — always ask, never assume.** Every video deserves its own soundtrack, so don't silently reuse the music from an earlier project or example. Ask two things (in the user's language; use a question tool if you have one):
+- **Music — always ask, never assume.** Every video deserves its own soundtrack, so don't silently reuse the music from an earlier project or example. Ask (in the user's language; use a question tool if you have one):
   1. **The feel**: calm / storytelling, upbeat / energetic, chill / lo-fi, minimal / tech, epic / cinematic, or no music.
-  2. **The source**:
-     - **Real music library (recommended)** — ~1,400 professionally produced tracks from incompetech.com (Kevin MacLeod, free, CC BY 4.0). Run `node <skill-dir>/scripts/find-music.mjs --feel "<feels>" [--q <instrument/genre>] [--bpm a-b]`, pick 3–4 tracks that fit the video's mood and pace, and send them as a list with each track's **preview link** so the user can listen and choose — you can't hear music, they can. Download only the one they pick.
-     - **Generated music** — `scripts/synth-audio.mjs`, simple and with no credit needed, but it sounds synthetic and every run of a mood has a similar character.
-     - **Their own file** — they make sure they have the rights.
-  If the user says "you choose", pick the feel and the track yourself and tell them in one line which one and why. See `references/audio.md`.
+  2. **How to choose the track**:
+     - **"You pick for me"** → choose the best-matching track yourself from the library and tell them in one line which one and why.
+     - **"Show me options"** → shortlist 3–4 well-matched tracks and open a listening page with `scripts/music-preview.mjs`, so they play every option in their browser without downloading anything. Never send bare MP3 links — in most browsers they download instead of playing.
+     - **"I have my own music"** → they give you the file (or its path) and you put it in `public/<project>/`; if they'd rather drop it in themselves, tell them the exact folder and file name.
+  How to search, match the feel properly and download is in `references/audio.md` (Pixabay Music first, incompetech second, generated music as a fallback).
 
 If the user gives a voiceover file, timing comes from the audio — run `node <skill-dir>/scripts/voice-timings.mjs <file>` to get phrase start/end times, map each phrase to the script, and drive every scene from those numbers.
 
@@ -75,8 +75,9 @@ If you use a question tool, the storyboard goes in the message *before* the ques
 ### 5. Gather assets (real images, logos, components)
 
 - **21st.dev components**: when a scene contains UI (input box, cards, chat, pricing, etc.), find a fitting component on https://21st.dev and port it. `references/21st-dev.md` explains how to get the source from the registry JSON and convert it to frame-driven Remotion code.
-- **Real photos / logos / flags**: search Wikimedia Commons with `node <skill-dir>/scripts/commons-search.mjs "query"` (prints license, author, size, URL). Look at candidates in the browser before proposing them. Read `references/assets-and-rights.md`.
-- **Always ask before downloading**: list each file (what it is, source, license, size) and wait for a yes. Record sources in `public/<project>/CREDITS.md`. Show on-screen credits if the video will be published; skip them only if the user says it's personal.
+- **Real photos / logos / flags — every image must show exactly what that line says.** Before searching, write for each storyboard line the specific image it needs (who/what, which moment, place, era — e.g. "Messi lifting the World Cup, Qatar 2022", not "Messi"). Search with specific queries (`node <skill-dir>/scripts/commons-search.mjs "query"`, plus Unsplash / Pexels in the browser for generic topics), open every candidate and look at it, and only keep it if it clearly shows that subject. A random or loosely related photo is worse than none: if nothing fits, use the real logo, a drawn illustration, an icon or big text for that line instead. When proposing images, say which line each one is for and why it matches. Details in `references/assets-and-rights.md`.
+- **Always ask before downloading**: list each file (what it is, which line it serves, source, license, size) and wait for a yes.
+- **No credits or sources inside the video.** Don't add a credits/sources end card, fine print or watermark-style attributions — users find it annoying and it ruins the ending. Keep sources in `public/<project>/CREDITS.md` and, if the video will be published and something needs attribution, give the user a ready-to-paste credit line for the post caption / description (that satisfies CC BY). Prefer sources that need no attribution at all (Pixabay, Unsplash, Pexels, public-domain / CC0 files).
 - Draw anything that doesn't exist as a licensed image yourself (icons, trophies, napkins, charts) as SVG line art.
 
 ### 6. Build
@@ -116,5 +117,6 @@ Users react in short sentences ("too fast", "the sound is annoying", "make it mo
 | `scripts/setup.mjs <dir>` | Creates the Remotion project + kit + demo |
 | `scripts/voice-timings.mjs <audio>` | Phrase timings from pauses (JSON) |
 | `scripts/commons-search.mjs "<query>"` | Wikimedia Commons search with license info |
-| `scripts/find-music.mjs --feel "Calming,Uplifting" [--q piano] [--bpm 80-120]` | Searches ~1,400 real CC BY tracks (incompetech) and prints preview links |
+| `scripts/find-music.mjs --feel "Calming,Uplifting" [--q piano] [--bpm 80-120]` | Searches ~1,400 real CC BY tracks (incompetech) |
+| `scripts/music-preview.mjs <out.html> <items…>` | Builds a listening page for music options and opens it in the browser (item format in `references/audio.md`) |
 | `scripts/synth-audio.mjs <outDir> --mood <calm/upbeat/lofi/ambient/cinematic/none> [--seconds 30]` | Generates a fresh music bed (random key/progression, `--seed` to repeat); `--sfx` adds a small soft SFX set |

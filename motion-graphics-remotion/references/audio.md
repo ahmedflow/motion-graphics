@@ -2,26 +2,54 @@
 
 ## First: ask which music
 
-Never pick the music silently, and never copy the soundtrack of a previous project or example — users notice when two different videos share the same track. Ask the user (step 3 of SKILL.md) for the **feel** (calm, energetic, chill, minimal, epic, or none) and the **source**: the real music library (A, recommended), generated music (B), or their own file.
+Never pick the music silently, and never copy the soundtrack of a previous project or example. Ask (step 3 of SKILL.md) for the **feel** and **how to choose**: "you pick for me", "show me options", or "I have my own music".
 
-## Option A — real music library (recommended)
+## Matching the feel — this is where it usually goes wrong
 
-incompetech.com (Kevin MacLeod) has ~1,400 produced tracks with real instruments, free under CC BY 4.0. Much more variety and quality than generated music.
+A track tagged "epic" can still be eerie, comic, too slow, or start with 40 s of nothing. Pick like a music supervisor, not a keyword filter:
 
-1. Search by feel (and optionally instrument/genre and tempo):
-   ```bash
-   node <skill-dir>/scripts/find-music.mjs --feel "Calming,Relaxed" --q piano --limit 8
-   node <skill-dir>/scripts/find-music.mjs --feel "Uplifting,Driving" --bpm 100-130
-   node <skill-dir>/scripts/find-music.mjs --feels      # all feels with counts
-   ```
-   Feels: Calming, Relaxed, Uplifting, Bright, Bouncy, Grooving, Driving, Epic, Action, Intense, Mysterious, Dark, Somber, Suspenseful, Humorous… Results come in random order, so different projects get different suggestions.
-2. Read the descriptions and pick 3–4 that suit the video (mood, pace, instruments; avoid tracks described as comedic/eerie unless that's the tone). Send them as a short list — title, one line about the sound, and the **preview link** — and let the user listen and choose. You can't hear audio; don't pretend to judge how it sounds.
-3. Download only the chosen track into `public/<project>/music.mp3` (it's their pick, but still mention the size).
-4. Tracks are usually longer than the video: in Remotion use `startFrom` to skip a slow intro if needed, and fade the volume out over the last ~1 s.
-5. Credit (required when published) — add to CREDITS.md and the post description:
-   `"<Title>" Kevin MacLeod (incompetech.com) — Licensed under Creative Commons: By Attribution 4.0`
+1. **Write a one-line brief first**: the feel, the energy curve of the video (e.g. "calm start, builds to a triumphant end"), tempo range, and instruments that fit the topic (tech → electronic/synth/piano; sport → drums/orchestra; luxury → ambient/piano; lifestyle → acoustic/lo-fi).
+2. **Read each candidate's tags, title and description** and reject anything with a conflicting feel (eerie, unnerving, humorous, dark, horror, comedy, medieval… when that's not the tone), anything whose description suggests a different use, and anything shorter than the video.
+3. **Prefer tracks whose energy starts quickly** — a reel has no time for a long intro (or plan a `startFrom` to skip it).
+4. Keep only 3–4 that genuinely fit the brief. If the search returns poor matches, search again with other words rather than offering weak options.
+5. You can't hear music. Say so honestly; the listening page lets the user judge.
 
-## Option B — generate instead of downloading
+## Source 1 — Pixabay Music (try first)
+
+Huge, modern catalogue, free, **no attribution needed**.
+
+- Search in the browser: `https://pixabay.com/music/search/<words>/` (e.g. `epic cinematic`, `corporate technology`, `lofi chill`, `inspiring piano`), or use the page's Genre / Mood / Duration filters.
+- Open candidate track pages and read the tags, duration and description.
+- **Skip tracks marked "Content ID Registered"** — they can trigger copyright claims or muted audio when the video is posted on Instagram / YouTube / TikTok.
+- Track pages play in the browser, so the listening page can simply link to them (`▶ Open & play`).
+- Downloading: Pixabay blocks script downloads (`curl` gets 403). After the user picks one, click **Download** on that track page in the browser (with their OK) and move the file from their Downloads folder into `public/<project>/music.mp3`; if that isn't possible, ask the user to click Download once and tell you where it went.
+
+## Source 2 — incompetech.com (Kevin MacLeod)
+
+~1,400 produced tracks, free under **CC BY 4.0** (needs a credit line in the post caption — never inside the video). Downloads work directly, and the MP3 links play inline on the listening page.
+
+```bash
+node <skill-dir>/scripts/find-music.mjs --feel "Uplifting,Epic" --q orchestra --bpm 90-130 --min 60
+node <skill-dir>/scripts/find-music.mjs --feels      # all feels with counts
+```
+
+Credit to give the user for the caption: `Music: "<Title>" Kevin MacLeod (incompetech.com), CC BY 4.0`.
+
+## The listening page
+
+Never send bare MP3 links (they download instead of playing). Build one page with all candidates and open it in the user's browser:
+
+```bash
+node <skill-dir>/scripts/music-preview.mjs out/music-options.html   "Epic — leberch|https://pixabay.com/music/orchestral-epic-509664/|Pixabay · orchestral trailer build, 2:16"   "At Launch|https://incompetech.com/music/royalty-free/mp3-royaltyfree/At%20Launch.mp3|Brass + strings, building, 102 BPM"
+```
+
+Each item is `Title|URL|one-line note`. Direct audio URLs get an inline player; page URLs get an "Open & play" button. Then ask the user which number they want (a question tool with the numbered options works well).
+
+## Using the track in Remotion
+
+Tracks are longer than the video: `<Audio src={staticFile('proj/music.mp3')} startFrom={skipFrames} volume={…} />`, fading in over ~0.5 s and out over the last ~1 s. Under a voiceover keep it around 0.15–0.2.
+
+## Source 3 — generated music (fallback)
 
 `scripts/synth-audio.mjs` synthesizes everything from math — no licensing questions:
 
