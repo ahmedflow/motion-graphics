@@ -15,7 +15,7 @@
 // Every run picks a random key, chord progression and pattern unless --seed is given; the seed used is
 // printed so a version the user likes can be regenerated exactly. Different projects therefore get different music.
 // Writes music.wav (unless none). With --sfx it also writes a small soft SFX set: key.wav, click.wav, send.wav,
-// ding.wav, reveal.wav, whoosh.wav. Sound effects are opt-in on purpose: use at most ~3 per video, well spaced.
+// ding.wav, reveal.wav, whoosh.wav.
 import fs from 'node:fs';
 import path from 'node:path';
 

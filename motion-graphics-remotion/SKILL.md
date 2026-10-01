@@ -1,6 +1,6 @@
 ---
 name: motion-graphics-remotion
-description: End-to-end workflow for making professional, smooth motion-graphics videos (Instagram reels, TikToks, product launches, story/biography videos, explainers) in code with Remotion — installs Remotion and everything it needs, lets the user pick a style reference from whatships.com, takes their idea, pulls UI components from 21st.dev, uses a browser to study references and find licensed real images, syncs to a voiceover, adds camera moves and music with very few, well-spaced sound effects, and renders an MP4. Use this skill whenever someone wants to make a motion graphic, animated video, reel, kinetic-typography clip, animated explainer, or "موشن جرافيك", mentions Remotion, whatships, or 21st.dev in a video context, or hands over a voiceover / script and asks for a video — even if they never say "Remotion".
+description: End-to-end workflow for making professional, smooth motion-graphics videos (Instagram reels, TikToks, product launches, story/biography videos, explainers) in code with Remotion — installs Remotion and everything it needs, lets the user pick a style reference from whatships.com, takes their idea, pulls UI components from 21st.dev, uses a browser to study references and find licensed real images, syncs to a voiceover, adds camera moves, music and well-placed sound effects, and renders an MP4. Use this skill whenever someone wants to make a motion graphic, animated video, reel, kinetic-typography clip, animated explainer, or "موشن جرافيك", mentions Remotion, whatships, or 21st.dev in a video context, or hands over a voiceover / script and asks for a video — even if they never say "Remotion".
 ---
 
 # Motion graphics with Remotion
@@ -78,7 +78,7 @@ Use the kit in `src/kit/` (copied by setup). It already contains: easing presets
 
 Read `references/motion-craft.md` before writing scenes — it holds the rules that make the difference between amateur and pro (camera on one world canvas, whip pans, push-ins, easing, durations, what never to do).
 
-Sound: the music carries the video; sound effects are the exception. Start with **zero SFX** and add one only when it explains an action or clearly makes a moment more professional — never on text appearing, transitions, camera moves, counters or every item in a list. Hard limits: **at most 3 SFX in the whole video, at least ~4 s apart, never two in a row**, quiet (≤ 0.35). No per-letter typing clicks. Users repeatedly found back-to-back sounds annoying ("gives a headache"), so when in doubt, leave it silent. Before rendering, list every `<Sfx>` with its time and the reason it's needed; drop any you can't justify. Details in `references/audio.md`.
+Sound: the music carries the video, and sound effects are used with judgment — add one where it helps explain what's happening or makes a moment feel more professional, and leave it out where it would just be noise. Avoid piling sounds up back to back; that's what makes a video tiring to watch. Details in `references/audio.md`.
 
 ### 7. Check, render, deliver
 
