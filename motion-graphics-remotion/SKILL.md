@@ -13,7 +13,7 @@ Talk to the user in their own language and dialect (many users of this skill wri
 
 Follow these steps in order. Each step has a reason; don't skip the checkpoints with the user, because taste is personal and the user only knows what they like once they see it.
 
-Two choices always belong to the user and must be asked every time, even when you could guess a good answer: **the style reference** (step 2 — do they pick it on whatships or should you?) and **the music** (step 3). Users have been unhappy when these were decided for them.
+Two choices always belong to the user and must be asked every time, even when you could guess a good answer: **the style reference** (step 2 — do they pick it on whatships or should you?) and **the music** (step 3). Users have been unhappy when these were decided for them. The flip side matters just as much: when the user answers "you choose", that *is* their decision — pick the best option yourself, say in one line what you picked, and move on without asking again.
 
 ### 1. Set up the machine and the project
 
@@ -31,7 +31,7 @@ The style reference is the user's decision, because it sets the whole look of th
 
 > "For the style, would you like to pick a reference video yourself from **https://whatships.com**, or shall I pick one for you?"
 > 1. I'll pick one myself → give the link to the gallery (the home page lists the launch videos) and wait until they send a `whatships.com/videos/...` link (or several). Don't start building the look until it arrives.
-> 2. You pick for me → browse whatships, choose 2–3 videos that fit their topic, send the links with one line each about the style, and let them choose one.
+> 2. You pick for me → the user has handed you the decision, so make it: browse whatships, choose the **one** video that fits their topic best, and carry on. Tell them in one line which one you picked (with its link) and why. Don't come back with a list of options or ask them to choose again — that's exactly what they asked you not to do. They can still say "change it" later.
 > 3. They already have their own reference (any video link or file) → use that.
 
 If you have a question tool (e.g. AskUserQuestion), use it with these options.
@@ -63,7 +63,9 @@ If the user gives a voiceover file, timing comes from the audio — run `node <s
 
 ### 4. Storyboard before building
 
-Write a short storyboard: one line per spoken phrase (or per beat if no VO) → what the viewer sees, which real image/logo/icon, what moves and how the camera moves. Each line of narration deserves its own visual idea that *explains* it (a map + pin for a birthplace, a medical report + growth chart for "doctors said he won't grow", a crest for a club name, a counter for a number). Share it briefly with the user and adjust. This is where most of the quality comes from.
+Write a short storyboard: one line per spoken phrase (or per beat if no VO) → what the viewer sees, which real image/logo/icon, what moves and how the camera moves. Each line of narration deserves its own visual idea that *explains* it (a map + pin for a birthplace, a medical report + growth chart for "doctors said he won't grow", a crest for a club name, a counter for a number). This is where most of the quality comes from.
+
+Show the storyboard **in your chat message as readable text** (a numbered list or a small table: time · what's said · what's on screen · camera), then ask if it's good to go. The user only sees what you write in the message — storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them, and asking "is the storyboard OK?" about something they can't see is confusing. Write it in the user's language. If you use a question tool, put the storyboard in the message *before* the question.
 
 ### 5. Gather assets (real images, logos, components)
 
