@@ -116,7 +116,8 @@ export const Num: React.FC<{children: React.ReactNode; size: number; weight?: nu
 	<span style={{fontFamily: inter, fontSize: size, fontWeight: weight, letterSpacing: -size * 0.04, fontVariantNumeric: 'tabular-nums', color: C.ink, ...style}}>{children}</span>
 );
 
-export const Sfx: React.FC<{at: number; src: string; volume?: number}> = ({at, src, volume = 0.5}) => (
+// Sound effect at a frame. Use sparingly: max ~3 per video, >= 4 s apart, never on text/transitions/camera moves.
+export const Sfx: React.FC<{at: number; src: string; volume?: number}> = ({at, src, volume = 0.3}) => (
 	<Sequence from={Math.round(at)} layout="none">
 		<Audio src={staticFile(src)} volume={volume} />
 	</Sequence>

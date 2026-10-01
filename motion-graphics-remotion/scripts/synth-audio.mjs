@@ -2,7 +2,7 @@
 // Synthesizes a music bed + a small, soft SFX set as WAV files (no samples, no licensing issues).
 //
 //   node synth-audio.mjs <outDir> --mood <mood> [--seconds 30] [--bpm N] [--seed N] [--key C|D|E|F|G|A|Bb]
-//                                 [--scale minor|major] [--drop 2.5] [--lift 20] [--end 27.5] [--no-sfx]
+//                                 [--scale minor|major] [--drop 2.5] [--lift 20] [--end 27.5] [--sfx]
 //
 // Moods:
 //   calm       felt piano arpeggios + pad (storytelling, under narration)
@@ -10,11 +10,12 @@
 //   lofi       Rhodes chords, dusty swung drums, vinyl crackle (chill, lifestyle, study)
 //   ambient    slow evolving pads + sparse bells, no drums (tech, minimal, luxury)
 //   cinematic  low string ostinato, toms building, big final chord (epic, sport, trailers)
-//   none       no music — only the SFX set
+//   none       no music (use with --sfx if you only need the effects)
 //
 // Every run picks a random key, chord progression and pattern unless --seed is given; the seed used is
 // printed so a version the user likes can be regenerated exactly. Different projects therefore get different music.
-// Writes: music.wav (unless none), key1-4.wav, click.wav, send.wav, ding.wav, reveal.wav, whoosh.wav
+// Writes music.wav (unless none). With --sfx it also writes a small soft SFX set: key.wav, click.wav, send.wav,
+// ding.wav, reveal.wav, whoosh.wav. Sound effects are opt-in on purpose: use at most ~3 per video, well spaced.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -345,22 +346,23 @@ if (mood === 'calm') {
 }
 
 if (mood !== 'none') write('music.wav', music, 0.8);
+else if (!has('--sfx')) console.log('mood=none and no --sfx: nothing to write.');
 
 // ---------- SFX (deliberately few and soft) ----------
-if (!has('--no-sfx')) {
+if (has('--sfx')) {
 	const one = (name, sec, fn, peak) => {
 		const b = buffer(sec);
 		add(b, 0, sec, fn);
 		write(name, b, peak);
 	};
-	[1, 2, 3, 4].forEach((v) => {
-		seed = 777 * v;
+	{
+		seed = 777;
 		const bp = svf();
 		const lp = svf();
 		const pitch = 150 + 40 * rand();
 		const tone = 900 + 300 * rand();
-		one(`key${v}.wav`, 0.12, (x) => lp(Math.sin(TAU * pitch * x) * Math.exp(-x * 60) + bp(noise(), tone, 1.2).band * Math.exp(-x * 160) * 0.5, 2200, 0.7).low * Math.min(1, x / 0.002), 0.6);
-	});
+		one('key.wav', 0.12, (x) => lp(Math.sin(TAU * pitch * x) * Math.exp(-x * 60) + bp(noise(), tone, 1.2).band * Math.exp(-x * 160) * 0.5, 2200, 0.7).low * Math.min(1, x / 0.002), 0.6);
+	}
 	one('click.wav', 0.08, (x) => (noise() * Math.exp(-x * 300) + Math.sin(TAU * 1800 * x) * Math.exp(-x * 120) * 0.5) * 0.9, 0.8);
 	one('send.wav', 0.7, (x) => (Math.sin(TAU * midi(76) * x) * Math.exp(-x * 6) + (x > 0.08 ? Math.sin(TAU * midi(83) * (x - 0.08)) * Math.exp(-(x - 0.08) * 5) : 0)) * 0.5, 0.7);
 	one('ding.wav', 1.4, (x) => [72, 76, 79, 84].reduce((s, n, k) => (x - k * 0.06 > 0 ? s + Math.sin(TAU * midi(n) * (x - k * 0.06)) * Math.exp(-(x - k * 0.06) * 3.5) * 0.3 : s), 0), 0.7);

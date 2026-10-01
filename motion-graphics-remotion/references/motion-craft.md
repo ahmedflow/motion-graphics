@@ -67,7 +67,8 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 
 - Blur on zooms or scene transitions.
 - Zooming on everything.
-- Many different SFX ("gives a headache") — and fast, loud keyboard sounds.
+- Many SFX, or SFX back to back ("gives a headache") — the most repeated complaint. Max 3 per video, ≥ 4 s apart, none on text/transitions/camera moves.
+- Per-letter keyboard typing sounds.
 - A hard impact sound on a logo reveal.
 - Only "put a photo, then a ruler" — not enough explanation per line.
 - Showing elements then removing them without camera movement.

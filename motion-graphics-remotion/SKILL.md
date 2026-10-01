@@ -1,6 +1,6 @@
 ---
 name: motion-graphics-remotion
-description: End-to-end workflow for making professional, smooth motion-graphics videos (Instagram reels, TikToks, product launches, story/biography videos, explainers) in code with Remotion — installs Remotion and everything it needs, lets the user pick a style reference from whatships.com, takes their idea, pulls UI components from 21st.dev, uses a browser to study references and find licensed real images, syncs to a voiceover, adds camera moves, music and minimal sound effects, and renders an MP4. Use this skill whenever someone wants to make a motion graphic, animated video, reel, kinetic-typography clip, animated explainer, or "موشن جرافيك", mentions Remotion, whatships, or 21st.dev in a video context, or hands over a voiceover / script and asks for a video — even if they never say "Remotion".
+description: End-to-end workflow for making professional, smooth motion-graphics videos (Instagram reels, TikToks, product launches, story/biography videos, explainers) in code with Remotion — installs Remotion and everything it needs, lets the user pick a style reference from whatships.com, takes their idea, pulls UI components from 21st.dev, uses a browser to study references and find licensed real images, syncs to a voiceover, adds camera moves and music with very few, well-spaced sound effects, and renders an MP4. Use this skill whenever someone wants to make a motion graphic, animated video, reel, kinetic-typography clip, animated explainer, or "موشن جرافيك", mentions Remotion, whatships, or 21st.dev in a video context, or hands over a voiceover / script and asks for a video — even if they never say "Remotion".
 ---
 
 # Motion graphics with Remotion
@@ -78,7 +78,7 @@ Use the kit in `src/kit/` (copied by setup). It already contains: easing presets
 
 Read `references/motion-craft.md` before writing scenes — it holds the rules that make the difference between amateur and pro (camera on one world canvas, whip pans, push-ins, easing, durations, what never to do).
 
-Sound: music + very few sound effects. `references/audio.md` explains how to synthesize a music bed and soft SFX with `scripts/synth-audio.mjs` (no licensing issues) and how loud each should be.
+Sound: the music carries the video; sound effects are the exception. Start with **zero SFX** and add one only when it explains an action or clearly makes a moment more professional — never on text appearing, transitions, camera moves, counters or every item in a list. Hard limits: **at most 3 SFX in the whole video, at least ~4 s apart, never two in a row**, quiet (≤ 0.35). No per-letter typing clicks. Users repeatedly found back-to-back sounds annoying ("gives a headache"), so when in doubt, leave it silent. Before rendering, list every `<Sfx>` with its time and the reason it's needed; drop any you can't justify. Details in `references/audio.md`.
 
 ### 7. Check, render, deliver
 
@@ -109,4 +109,4 @@ Users react in short sentences ("too fast", "the sound is annoying", "make it mo
 | `scripts/setup.mjs <dir>` | Creates the Remotion project + kit + demo |
 | `scripts/voice-timings.mjs <audio>` | Phrase timings from pauses (JSON) |
 | `scripts/commons-search.mjs "<query>"` | Wikimedia Commons search with license info |
-| `scripts/synth-audio.mjs <outDir> --mood <calm/upbeat/lofi/ambient/cinematic/none> [--seconds 30]` | Generates a fresh music bed (random key/progression, `--seed` to repeat) + soft SFX WAVs |
+| `scripts/synth-audio.mjs <outDir> --mood <calm/upbeat/lofi/ambient/cinematic/none> [--seconds 30]` | Generates a fresh music bed (random key/progression, `--seed` to repeat); `--sfx` adds a small soft SFX set |
