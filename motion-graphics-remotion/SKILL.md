@@ -13,6 +13,8 @@ Talk to the user in their own language and dialect (many users of this skill wri
 
 Follow these steps in order. Each step has a reason; don't skip the checkpoints with the user, because taste is personal and the user only knows what they like once they see it.
 
+Two choices always belong to the user and must be asked every time, even when you could guess a good answer: **the style reference** (step 2 — do they pick it on whatships or should you?) and **the music** (step 3). Users have been unhappy when these were decided for them.
+
 ### 1. Set up the machine and the project
 
 1. Check Node.js: `node -v` (needs ≥ 18). If missing, tell the user to install the LTS from https://nodejs.org and come back — don't download installers yourself.
@@ -23,9 +25,16 @@ Follow these steps in order. Each step has a reason; don't skip the checkpoints 
 3. Verify it works by rendering one still: `npx remotion still Demo out/check.jpg --frame=60 --scale=0.4` and look at it. Remotion downloads its own headless Chrome on first render — that's expected.
 4. Tell the user they can preview live any time with `npm run studio`.
 
-### 2. Pick a style reference (whatships.com)
+### 2. Pick a style reference (whatships.com) — ask the user first
 
-Give the user the gallery link — **https://whatships.com** (the home page is the gallery of launch videos) — and ask them to pick one or two launch videos whose feel they like (they can paste a `whatships.com/videos/...` link). If they'd rather you choose, browse it and suggest 2–3 options matching their topic.
+The style reference is the user's decision, because it sets the whole look of their video. **Don't choose one yourself before asking**, even if you already know a fitting video. Ask this question (in the user's language), together with the questions of step 3 if you batch them; put it first:
+
+> "For the style, would you like to pick a reference video yourself from **https://whatships.com**, or shall I pick one for you?"
+> 1. I'll pick one myself → give the link to the gallery (the home page lists the launch videos) and wait until they send a `whatships.com/videos/...` link (or several). Don't start building the look until it arrives.
+> 2. You pick for me → browse whatships, choose 2–3 videos that fit their topic, send the links with one line each about the style, and let them choose one.
+> 3. They already have their own reference (any video link or file) → use that.
+
+If you have a question tool (e.g. AskUserQuestion), use it with these options.
 
 Then actually study the reference — don't guess from the title. Read `references/study-a-reference.md` for the exact browser technique (enlarge the `<video>`, seek to timestamps, screenshot). Write down, for yourself: background, palette, type style, how text enters, how UI/photos enter, transition style, camera behaviour, pacing. Tell the user in 3–5 lines what you took from it.
 
