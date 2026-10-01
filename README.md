@@ -4,6 +4,24 @@
 
 ## التثبيت
 
+### أسهل طريقة (Claude Code)
+
+افتح Claude Code والصق له:
+
+```
+ثبّت المهارة: https://github.com/ahmedflow/motion-graphics
+```
+
+بعدها افتح جلسة جديدة، واكتب: "سوّ لي موشن جرافيك عن ..."
+
+> **Installation instructions for Claude** (when a user asks you to install this skill from this link):
+> 1. Clone or download this repository to a temporary folder.
+> 2. Copy the **whole** `motion-graphics-remotion/` folder — `SKILL.md` plus `scripts/`, `references/` and `assets/` — to the user's skills folder: `~/.claude/skills/motion-graphics-remotion/` (Windows: `%USERPROFILE%\.claude\skills\motion-graphics-remotion\`). If an older copy exists there, replace it.
+> 3. Check that `~/.claude/skills/motion-graphics-remotion/SKILL.md` and the three subfolders exist, then delete the temporary clone.
+> 4. Tell the user it's installed and that they need to start a **new session** for the skill to load.
+
+### طرق ثانية
+
 - **Claude (الويب أو تطبيق الكمبيوتر):** افتح ملف `motion-graphics-remotion.skill` واضغط **Save skill**. لو ما طلع لك الزر، روح إلى الإعدادات ← Capabilities ← Skills، وارفع الملف من هناك.
 - **Claude Code:** فك ضغط الملف داخل `~/.claude/skills/`، عشان يصير المسار `~/.claude/skills/motion-graphics-remotion/SKILL.md`.
 
