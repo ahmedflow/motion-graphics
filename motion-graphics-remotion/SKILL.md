@@ -80,7 +80,7 @@ Write a short storyboard: one line per spoken phrase (or per beat if no VO) → 
 Rules that come from users rejecting finished videos — one for being "just text and primitive cards, every transition is a slide", another for being "too many photos — that's a photo slideshow, not motion graphics":
 - **Motion graphics is the base.** Most scenes are *designed graphics that move*: kinetic typography, shapes that morph, icons and pictograms that multiply or transform, vector illustrations, self-drawing line art, maps, timelines, charts and counters (toolbox in `references/motion-craft.md` §10 and §12). This is not "text on cards": every graphic scene needs a visual idea that explains the line, built with care (layers, depth, detail, the reference's polish).
 - **Photos are an accent, used on purpose.** Put a real photo only where the idea needs proof that a graphic can't give — a real person, a real place, a historical moment, a real object, a "this actually happened" beat. Ask for every photo: "does this scene lose its meaning without it?" If not, draw it.
-- **Decide the photo budget from the idea, before the storyboard, and tell the user** (e.g. "about 2 photos — the topic is a concept, so the rest is graphics"):
+- **Decide the photo budget yourself from the idea, before the storyboard.** This is your call, never the user's: **don't ask about it — no question, no options, nothing they have to answer.** Just state it in one line above the storyboard table (e.g. "about 2 photos — the topic is a concept, so the rest is graphics"); the user can still change it when they review the storyboard.
 
   | Kind of idea | Photos (≈30 s video) |
   |---|---|
@@ -88,7 +88,7 @@ Rules that come from users rejecting finished videos — one for being "just tex
   | Product / app launch | 0–2 — the product's own screens/UI carry it |
   | Story of a real person, a country / city / club, a historical event or era | **more — up to about half the scenes**, because the real faces, places and moments *are* the content; still animated inside a graphic system (timeline, map, frames, cut-outs) |
 
-  If the user asks for more or fewer photos, the user wins.
+  If the user asks for more or fewer photos on their own, the user wins.
 - **No filler.** Don't invent interfaces (chat boxes, notification lists, dashboards) or add decorative stock photos to fill a scene. UI only when the line is literally about using a product. People drawn in a consistent designed vector style are fine in graphic scenes; grey placeholder avatars are not.
 - **Every scene gets its own creative motion idea and its own transition**, chosen from the toolbox in `references/motion-craft.md` (§10–11). No transition type may appear more than twice in a video, and slides/pans may be at most a third of all transitions.
 - Build an emotional arc that the visuals show (e.g. tension → turn → hope), not only the captions.
