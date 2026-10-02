@@ -15,6 +15,14 @@ Follow these steps in order. Each step has a reason; don't skip the checkpoints 
 
 Two choices always belong to the user and must be asked every time, even when you could guess a good answer: **the style reference** (step 2 — do they pick it on whatships or should you?) and **the music** (step 3). Users have been unhappy when these were decided for them. The flip side matters just as much: when the user answers "you choose", that *is* their decision — pick the best option yourself, say in one line what you picked, and move on without asking again.
 
+**Ask the opening questions all at once, at the very start** — right after you start the setup script, before any research. A user was annoyed when the voiceover question came up later, in a second round. A question tool shows at most 4 questions per call, so the first call is always these four:
+1. **Style reference** — pick it themselves on whatships, or you pick (step 2)
+2. **Music feel** — calm / upbeat / lo-fi / minimal tech / cinematic / none (step 3)
+3. **Format + length** — 9:16 · 16:9 · 1:1, ~30 s by default
+4. **Voiceover** — none (text + music) / they record it / AI voice (step 3)
+
+Straight after it, a second call with **how to choose the track** (you pick / show me options / I have my own music). Nothing else goes in these rounds: don't ask about the brand's logo or identity (see "Real brands" in step 3); ask about the storyboard only in step 4.
+
 ### 1. Set up the machine and the project
 
 1. Check Node.js: `node -v` (needs ≥ 18). If missing, tell the user to install the LTS from https://nodejs.org and come back — don't download installers yourself.
@@ -35,7 +43,7 @@ Two choices always belong to the user and must be asked every time, even when yo
 
 ### 2. Pick a style reference (whatships.com) — ask the user first
 
-The style reference is the user's decision, because it sets the whole look of their video. **Don't choose one yourself before asking**, even if you already know a fitting video. Ask this question (in the user's language), together with the questions of step 3 if you batch them; put it first:
+The style reference is the user's decision, because it sets the whole look of their video. **Don't choose one yourself before asking**, even if you already know a fitting video. Ask this question (in the user's language) as the first of the four opening questions (see above):
 
 > "For the style, would you like to pick a reference video yourself from **https://whatships.com**, or shall I pick one for you?"
 > 1. I'll pick one myself → give the link to the gallery (the home page lists the launch videos) and wait until they send a `whatships.com/videos/...` link (or several). Don't start building the look until it arrives.
@@ -56,7 +64,7 @@ The reference is about **motion language and polish**, not content. Borrow how i
 
 ### 3. Get the idea
 
-Ask only what you can't infer:
+The format, voiceover and music questions were already asked in the opening round. Beyond those, ask only what you can't infer:
 - Topic / message and the target audience
 - Format: 9:16 reel (1080×1920, default), 16:9 (1920×1080) or 1:1
 - Length (default 20–40 s)
@@ -70,6 +78,15 @@ Ask only what you can't infer:
      - **"I have my own music"** → they give you the file (or its path) and you put it in `public/<project>/`; if they'd rather drop it in themselves, tell them the exact folder and file name.
   How to search, match the feel properly and download is in `references/audio.md`. **Search widely** — Pixabay, Mixkit, Uppbeat, incompetech, Free Music Archive and any other site that offers downloads; don't limit yourself to one library. **Don't reject a track over Content ID / copyright-claim risk** — the video's owner handles rights when publishing; choose on fit and quality only. Generated music is a last-resort fallback.
   **The music must be instrumental — no vocals, no singing, no spoken words, no choir "aahs" with lyrics** — unless the user explicitly asks for a song. On-screen text and the voiceover carry the words; a second voice in the music competes with them. You can't hear the track, so verify from the page: genre, tags, title and description must not mention vocals / voice / singer / lyrics / rap / spoken / choir; prefer tracks tagged "instrumental". It must also fit the idea's emotional arc (see `references/audio.md`), not just the feel word the user chose.
+
+**Real brands → the official logo and colours, found by you.** When the video is about (or names) a real company, product, app, bank, wallet, club, government service…, find its **official logo** and brand colours yourself, even if the user never sent them. Don't ask "do you have a logo, or shall I design one?", and never draw a substitute logo from scratch. That user said: "you're supposed to take the official logo even if I didn't give it to you". Where to look, in order:
+1. The brand's official website: the header logo (often an inline `<svg>` or `/logo.svg`), the favicon / `apple-touch-icon`, and the `og:image`.
+2. Its press kit / media / brand page.
+3. Wikipedia / Wikimedia Commons file pages (`commons-search.mjs`, `--wiki en` or `--wiki ar`).
+4. Its official app-store listing or verified social profile (for the icon).
+Take the palette from the logo and the site (CSS variables, buttons) and build the video's colours around it. Prefer SVG; otherwise use the largest clean PNG. The logo goes into the download confirmation of step 5b like any other file.
+You may **rebuild the official logo as SVG** to animate it like a pro: draw it on stroke by stroke, split it into pieces that assemble, morph into it, or reveal it through a mask. The rebuild must look exactly like the original (same shapes, proportions, colours). Design a logo yourself only when the brand truly has none, for example an idea that doesn't exist yet or a fictional product. In that case, say so in one line.
+If several brands share the name (e.g. "برق"), pick the one the topic clearly means (country, category). If it is still unclear, show the candidates you found (name + site) in one question; don't fall back to designing.
 
 If the user gives a voiceover file, timing comes from the audio — run `node <skill-dir>/scripts/voice-timings.mjs <file>` to get phrase start/end times, map each phrase to the script, and drive every scene from those numbers.
 
@@ -122,6 +139,7 @@ This is your call, not the user's: **don't ask the user to approve components or
 
 - **Graphics first**: icons and pictograms as inline SVG (e.g. Lucide, Tabler — MIT/ISC, no credit needed), illustrations drawn as SVG in the video's palette, or from free sets that need no attribution (e.g. unDraw). Keep one consistent style across the video.
 - **Search only for the rows of the photo column.** Unsplash / Pexels / Pixabay (photos *and* short stock video clips — no attribution needed) for generic subjects like people working, offices, robots, cities; Wikimedia Commons for specific people, places and events. Aim for 2–3 good candidates per scene, then pick the best.
+- **The brand's official logo** (step 3, "Real brands"): fetch it from the official source before building, and list it in the download confirmation. Never ship a home-made stand-in for a real brand.
 - **Real photos / logos / flags — every image must show exactly what that line says.** Before searching, write for each storyboard line the specific image it needs (who/what, which moment, place, era — e.g. "Messi lifting the World Cup, Qatar 2022", not "Messi"). Search with specific queries (`node <skill-dir>/scripts/commons-search.mjs "query"`, plus Unsplash / Pexels in the browser for generic topics), open every candidate and look at it, and only keep it if it clearly shows that subject. A random or loosely related photo is worse than none: if nothing fits, use the real logo, a drawn illustration, an icon or big text for that line instead. When proposing images, say which line each one is for and why it matches. Details in `references/assets-and-rights.md`.
 - **Always ask before downloading**: list each file (what it is, which line it serves, source, license, size) and wait for a yes.
 - **No credits or sources inside the video.** Don't add a credits/sources end card, fine print or watermark-style attributions — users find it annoying and it ruins the ending. Keep sources in `public/<project>/CREDITS.md` and, if the video will be published and something needs attribution, give the user a ready-to-paste credit line for the post caption / description (that satisfies CC BY). Prefer sources that need no attribution at all (Pixabay, Unsplash, Pexels, public-domain / CC0 files).
