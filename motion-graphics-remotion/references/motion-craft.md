@@ -60,6 +60,8 @@ Use real images and logos whenever the narration names something concrete. A pla
 - Font: IBM Plex Sans Arabic (loaded in the kit). Weight 500 for body captions, 600 for punch lines.
 - Typing effect: slice by code points (`Array.from(text)`); partial words look natural.
 - Code/LTR snippets with Arabic strings show bidi glitches — use English strings inside code.
+- **Every element that contains Arabic needs its own `direction: 'rtl'`** — pills, chips, labels and badges too, not only captions. Without it, a trailing "…" or "؟" jumps to the start of the text ("…المكتب فاضي" instead of "المكتب فاضي…").
+- Photo inside giant letters (`backgroundClip: 'text'`): put the background and the clip on **each word's own element**. If the clip is on a parent and the children have `transform` or `opacity` (as every animated word does), the text renders invisible.
 
 ## 7. Transitions between flat scenes (when not using the world camera)
 

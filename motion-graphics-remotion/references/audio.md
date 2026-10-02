@@ -21,9 +21,14 @@ Huge, modern catalogue, free, **no attribution needed**.
 
 - Search in the browser: `https://pixabay.com/music/search/<words>/` (e.g. `epic cinematic`, `corporate technology`, `lofi chill`, `inspiring piano`), or use the page's Genre / Mood / Duration filters.
 - Open candidate track pages and read the tags, duration and description.
-- **Skip tracks marked "Content ID Registered"** — they can trigger copyright claims or muted audio when the video is posted on Instagram / YouTube / TikTok.
+- **Skip tracks marked "Content ID Registered"** — they can trigger copyright claims or muted audio when the video is posted on Instagram / YouTube / TikTok. Many of the top search results are registered, so check in bulk: from a pixabay.com tab, fetch each candidate's track page and keep only those whose HTML does **not** contain `Content ID Registered` (the search page itself never contains the phrase, so it's a reliable per-track signal). The same HTML holds the MP3 URL (`https://cdn.pixabay.com/download/audio/…mp3?filename=…`) and the tags (`/music/search/<tag>/` links).
 - Track pages play in the browser, so the listening page can simply link to them (`▶ Open & play`).
-- Downloading: Pixabay blocks script downloads (`curl` gets 403). After the user picks one, click **Download** on that track page in the browser (with their OK) and move the file from their Downloads folder into `public/<project>/music.mp3`; if that isn't possible, ask the user to click Download once and tell you where it went.
+- Downloading (after the user's OK): `curl` on the track page gets 403, but the CDN file downloads fine with a browser User-Agent and a Pixabay referer:
+  ```bash
+  curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130" -e "https://pixabay.com/" "<cdn mp3 url>" -o public/<project>/music.mp3
+  file public/<project>/music.mp3   # must say MPEG audio, not HTML
+  ```
+  If that ever fails, click **Download** on the track page in the browser and move the file from the Downloads folder; if that isn't possible either, ask the user to click Download once and tell you where it went.
 
 ## Source 2 — incompetech.com (Kevin MacLeod)
 
@@ -45,6 +50,14 @@ node <skill-dir>/scripts/music-preview.mjs out/music-options.html   "Epic — le
 ```
 
 Each item is `Title|URL|one-line note`. Direct audio URLs get an inline player; page URLs get an "Open & play" button. Then ask the user which number they want (a question tool with the numbered options works well).
+
+## Finding the hits — sync the story to the music
+
+You can't hear the track, but you can measure it. Run this from the project folder (it uses Remotion's bundled ffmpeg):
+```bash
+node <skill-dir>/scripts/music-energy.mjs public/<project>/music.mp3 --seconds 40
+```
+It prints the loudness of every second and marks the **hits** (sudden jumps in energy — a new phrase, the drums coming in, the big chord). Put the story's turn (the reveal, "but here's the truth", the logo) on a hit, and choose `startFrom` so the first hit lands where you need it. Many tracks repeat a phrase every 8 or 16 s, so the hits also tell you a natural scene length.
 
 ## Using the track in Remotion
 

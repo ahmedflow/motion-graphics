@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 // Creates a Remotion motion-graphics project with the animation kit + a demo composition.
-// Usage: node setup.mjs <project-folder> [--allow-cloud]
+// Usage: node setup.mjs <project-folder> [--allow-cloud] [--reuse]
+//
+// A folder that already holds a project (an earlier video) is never mixed with the new one: the new
+// project goes to <name>-2, <name>-3, … instead. --reuse keeps the old behaviour (add missing files only).
 //
 // The project is created where asked (normally inside the user's working folder), except in a
 // cloud-synced folder (OneDrive, Dropbox, iCloud, Google Drive):
@@ -17,6 +20,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const template = path.resolve(here, '../assets/template');
 const args = process.argv.slice(2);
 const allowCloud = args.includes('--allow-cloud');
+const reuse = args.includes('--reuse');
 const requested = path.resolve(args.find((a) => !a.startsWith('--')) || 'motion-project');
 
 const home = os.homedir();
@@ -55,6 +59,21 @@ let target = requested;
 if (!allowCloud && inCloud(requested)) {
 	target = path.join(projectsRoot, path.basename(requested));
 	console.log(`\n⚠ ${requested}\n  is inside a cloud-synced folder (OneDrive/Dropbox/iCloud/Google Drive).\n  Syncing node_modules (~21k files) freezes the folder, so the project goes here instead:\n  → ${target}\n  (Put only finished MP4s in the cloud folder. Pass --allow-cloud to override.)\n`);
+}
+
+// Never build a new video on top of an old one: its scenes, compositions, photos and music would leak in.
+const hasContent = (dir) => fs.existsSync(dir) && fs.readdirSync(dir).some((e) => !e.startsWith('.'));
+if (!reuse && hasContent(target)) {
+	const base = target;
+	let i = 2;
+	while (hasContent(`${base}-${i}`)) i++;
+	target = `${base}-${i}`;
+	console.log(`
+⚠ ${base}
+  already contains files (probably an earlier project), so the new project goes here instead:
+  → ${target}
+  (Pass --reuse to add missing files to the existing folder instead.)
+`);
 }
 
 const major = Number(process.versions.node.split('.')[0]);

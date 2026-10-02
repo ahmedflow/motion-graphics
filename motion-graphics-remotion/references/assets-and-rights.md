@@ -13,6 +13,9 @@ The most common failure is a photo that's "about the topic" but doesn't show wha
 ## Where to look
 
 0. **Unsplash / Pexels / Pixabay** (in the browser) — free, **no attribution needed**; best for generic subjects (cities, stadiums, technology, people working, nature). Rarely have specific celebrities.
+   - **Unsplash fast search**: `curl` to its API needs a key, but from an open unsplash.com tab `fetch('/napi/search/photos?per_page=20&query=' + encodeURIComponent(q))` returns JSON. **Drop results with `premium` or `plus` true** — those are Unsplash+ (paid), not free. Keep `id`, `alt_description`, `user.name`, `urls.small` and `urls.raw`.
+   - To compare many candidates at once, replace the tab's `document.body.innerHTML` with a grid of the `urls.small` thumbnails (one row per scene, numbered) and take a single screenshot.
+   - Download the chosen ones with `curl -sL "<urls.raw>?w=1920&q=82&fm=jpg" -o public/<project>/<name>.jpg` (works without a key), then open each file and check it.
 
 1. **Wikimedia Commons** — real photos of people, places, stadiums, trophies, flags, many with free licenses. Use the bundled script:
    ```bash

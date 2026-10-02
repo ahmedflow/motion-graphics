@@ -29,7 +29,7 @@ Two choices always belong to the user and must be asked every time, even when yo
    | Normal, local folder | `<working folder>/<project-name>` | `<working folder>/<name>.mp4` |
    | Cloud-synced (OneDrive, Dropbox, iCloud, Google Drive) | `C:\Projects\<project-name>` or `~/Projects/<project-name>` | `<working folder>/<name>.mp4` |
 
-   Always pass the working folder to the script and let it decide — don't pick `C:\Projects` yourself. The script checks whether the path is really cloud-synced (on Windows `Documents` is often inside OneDrive; on a Mac `~/Documents` and `~/Desktop` sync to iCloud when "Desktop & Documents Folders" is on), and only then redirects, because `node_modules` is ~21k small files and the sync client locks them while uploading, freezing the user's folders. Work from the project path it prints. If it redirected, tell the user why in one line. Either way the finished video goes into the working folder (step 7).
+   Always pass the working folder to the script and let it decide — don't pick `C:\Projects` yourself. The script checks whether the path is really cloud-synced (on Windows `Documents` is often inside OneDrive; on a Mac `~/Documents` and `~/Desktop` sync to iCloud when "Desktop & Documents Folders" is on), and only then redirects, because `node_modules` is ~21k small files and the sync client locks them while uploading, freezing the user's folders. Work from the project path it prints. If that folder already holds an earlier project, the script creates `<name>-2` (`-3`, …) instead, so an old video's scenes, photos and music never leak into the new one. If it redirected, tell the user why in one line. Either way the finished video goes into the working folder (step 7).
 3. Verify it works by rendering one still: `npx remotion still Demo out/check.jpg --frame=60 --scale=0.4` and look at it. Remotion downloads its own headless Chrome on first render — that's expected.
 4. Tell the user they can preview live any time with `npm run studio`.
 
@@ -126,6 +126,8 @@ Use the kit in `src/kit/` (copied by setup). It already contains: easing presets
 
 Read `references/motion-craft.md` before writing scenes — it holds the rules that make the difference between amateur and pro (camera on one world canvas, whip pans, push-ins, easing, durations, what never to do).
 
+Before timing the scenes, run `scripts/music-energy.mjs` on the chosen track and put the story's turn on one of its hits (`references/audio.md`).
+
 Sound: the music carries the video, and sound effects are used with judgment — add one where it helps explain what's happening or makes a moment feel more professional, and leave it out where it would just be noise. Avoid piling sounds up back to back; that's what makes a video tiring to watch. Details in `references/audio.md`.
 
 ### 7. Check, render, deliver
@@ -161,5 +163,6 @@ Users react in short sentences ("too fast", "the sound is annoying", "make it mo
 | `scripts/voice-timings.mjs <audio>` | Phrase timings from pauses (JSON) |
 | `scripts/commons-search.mjs "<query>"` | Wikimedia Commons search with license info |
 | `scripts/find-music.mjs --feel "Calming,Uplifting" [--q piano] [--bpm 80-120]` | Searches ~1,400 real CC BY tracks (incompetech) |
+| `scripts/music-energy.mjs <audio> [--seconds 40]` | Loudness per second + the hits, to put the story's turn on a musical hit (run from the project folder) |
 | `scripts/music-preview.mjs <out.html> <items…>` | Builds a listening page for music options and opens it in the browser (item format in `references/audio.md`) |
 | `scripts/synth-audio.mjs <outDir> --mood <calm/upbeat/lofi/ambient/cinematic/none> [--seconds 30]` | Generates a fresh music bed (random key/progression, `--seed` to repeat); `--sfx` adds a small soft SFX set |
