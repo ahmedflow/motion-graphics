@@ -14,8 +14,9 @@
 //
 // Every run picks a random key, chord progression and pattern unless --seed is given; the seed used is
 // printed so a version the user likes can be regenerated exactly. Different projects therefore get different music.
-// Writes music.wav (unless none). With --sfx it also writes a small soft SFX set: key.wav, click.wav, send.wav,
-// ding.wav, reveal.wav, whoosh.wav.
+// Writes music.wav (unless none). With --sfx it also writes a soft SFX palette: key.wav, click.wav, send.wav,
+// ding.wav, reveal.wav, whoosh.wav, pop.wav, tick.wav, check.wav, thud.wav, shimmer.wav, riser.wav, swipe.wav.
+// Each is short, low-passed and with a soft attack so it sits under the music. See references/audio.md for when to use which.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -343,7 +344,7 @@ if (mood === 'calm') {
 if (mood !== 'none') write('music.wav', music, 0.8);
 else if (!has('--sfx')) console.log('mood=none and no --sfx: nothing to write.');
 
-// ---------- SFX (deliberately few and soft) ----------
+// ---------- SFX palette (soft; each video uses only what its moments need) ----------
 if (has('--sfx')) {
 	const one = (name, sec, fn, peak) => {
 		const b = buffer(sec);
@@ -380,6 +381,58 @@ if (has('--sfx')) {
 			const p = x / 0.6;
 			return lp(f(noise(), 200 + 1400 * Math.sin(Math.PI * p), 1.4).band * Math.sin(Math.PI * Math.pow(p, 0.6)) ** 2, 6000, 0.7).low;
 		}, 0.6);
+	}
+	// pop — an element appears (bubble-like pitch drop, no click)
+	one('pop.wav', 0.2, (x) => {
+		const ph = TAU * (420 * x + (480 * (1 - Math.exp(-40 * x))) / 40);
+		return Math.sin(ph) * Math.exp(-x * 24) * Math.min(1, x / 0.003);
+	}, 0.55);
+	// tick — a counter / a small step (very short, quiet)
+	{
+		const lp = svf();
+		one('tick.wav', 0.06, (x) => lp(Math.sin(TAU * 2300 * x) * Math.exp(-x * 170) + noise() * Math.exp(-x * 420) * 0.18, 5000, 0.7).low * Math.min(1, x / 0.001), 0.4);
+	}
+	// check — something done / correct (two soft marimba notes)
+	one('check.wav', 0.6, (x) => [79, 86].reduce((s, n, k) => {
+		const t = x - k * 0.07;
+		return t > 0 ? s + (Math.sin(TAU * midi(n) * t) + 0.25 * Math.sin(TAU * midi(n) * 4 * t) * Math.exp(-t * 30)) * Math.exp(-t * 9) * Math.min(1, t / 0.002) : s;
+	}, 0) * 0.5, 0.55);
+	// thud — a soft stamp / something lands (felt, low, no harsh transient)
+	{
+		const lp = svf();
+		one('thud.wav', 0.7, (x) => {
+			const ph = TAU * (60 * x + (50 * (1 - Math.exp(-25 * x))) / 25);
+			return (Math.sin(ph) * Math.exp(-x * 7) + lp(noise(), 380, 0.7).low * Math.exp(-x * 18) * 0.6) * Math.min(1, x / 0.004);
+		}, 0.7);
+	}
+	// shimmer — an idea / a positive turn / sparkle (airy bell cluster)
+	{
+		const air = svf();
+		one('shimmer.wav', 1.4, (x) => {
+			const bells = [88, 95, 100, 103].reduce((s, n, k) => {
+				const t = x - k * 0.045;
+				return t > 0 ? s + Math.sin(TAU * midi(n) * t) * Math.exp(-t * (3 + k * 0.6)) * 0.22 : s;
+			}, 0);
+			return bells + air(noise(), 6500, 0.8).band * Math.exp(-x * 3) * 0.06 * Math.min(1, x / 0.05);
+		}, 0.45);
+	}
+	// riser — short tension build INTO a transition (ends right at the cut)
+	{
+		const f = svf();
+		one('riser.wav', 1.5, (x) => {
+			const p = x / 1.5;
+			const tone = Math.sin(TAU * (200 * x + 200 * x * p)) * 0.25;
+			return (f(noise(), 300 + 3800 * p * p, 1.1).band + tone) * p * p * Math.min(1, (1.5 - x) / 0.04);
+		}, 0.5);
+	}
+	// swipe — a quick paper-like swish for wipes / cards sliding (shorter and lighter than whoosh)
+	{
+		const f = svf();
+		const lp = svf();
+		one('swipe.wav', 0.32, (x) => {
+			const p = x / 0.32;
+			return lp(f(noise(), 2400 - 1700 * p, 1.2).band * Math.sin(Math.PI * p) ** 2, 7000, 0.7).low;
+		}, 0.45);
 	}
 }
 

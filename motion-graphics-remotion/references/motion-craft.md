@@ -32,19 +32,36 @@ But the world camera is **one tool, not the whole video**. A video where every s
 
 Don't zoom on every shot for its own sake; every camera move should follow the narration.
 
+## 3b. One focal point at a time
+
+At any moment the viewer should know exactly where to look. The failure users keep spotting: a scene that stacks many separate elements vertically — an icon, a sentence, then a list of 4–5 rows — all appearing and leaving within 2–3 seconds. Nothing gets read; it feels busy.
+
+- **Count the new things per beat**: at most one new focal element at a time (one word, one row, one number, one icon). Everything else on screen is either already read (dimmed, smaller, pushed back) or not there yet.
+- **Give each item its own moment**: about 0.7–1.2 s per item that should be read. If a list has more items than the scene has time for, cut items (3 are usually enough) or lengthen the scene — never squeeze.
+- **Ways to keep focus on a list / stack of items** (pick per scene, vary them):
+  - **Camera rides the list**: show the list big (scale 1.2–1.6) and move it so the current item sits at the same spot on screen; dim the others (opacity ~0.25) and fade the edges into the background.
+  - **One at a time, centre stage**: each item comes in alone, big, in the centre; when it's done it shrinks and moves to a small pile/row at the side, and the next one takes the centre.
+  - **Zoom in → zoom out**: push in on item 1, then 2, then 3; pull out at the end to show all of them together as the payoff.
+  - **Pop out of the card**: the full list stays small; the current item lifts out of it (scale up, shadow, slight tilt) and goes back when done.
+  - **Swap in place**: a single slot where items replace each other (the word above changes with them — "يكتب…" → "يصمّم…" → "يحسب.").
+- **Pair text with what it describes**: if a headline and a visual say the same thing, show them in sequence or tie them (the verb changes with the row being ticked), not as two competing blocks.
+- Captions and the visual should not both be "new" in the same instant — let the caption land, then the visual acts (or the reverse).
+
 ## 4. Explain every line visually
 
 For each spoken phrase, ask: what picture would make a viewer *understand* this sentence with the sound off?
-- Place → map outline drawing itself + pin drop + card with a real photo of the place.
+- Place → map outline drawing itself + pin drop (+ one real photo of the place only if the story is about that place).
 - "Doctors said…" → a medical report filling in line by line, with the key diagnosis highlighted.
 - "won't grow" → growth chart: normal curve dashed, his curve flattening, an arrow showing the gap. Bring it back at the end with the curve breaking through.
 - Club / brand / country name → the real crest / logo / flag, popped in with a ring.
 - A number → a counter that counts up; a count of items → the items themselves appearing one by one, then a pull-out with "×8".
 - A date or first event → a timeline with a ball/dot travelling to the year, plus a small chip with the exact date and opponent.
 - A signing / contract → the object (napkin, paper) with a pen drawing the signature (`getPointAtLength` from `@remotion/paths` to move the pen tip).
-- A trophy / win → real photo of the trophy in a medallion, stars, confetti burst.
+- A trophy / win → drawn trophy in a medallion (or the real photo in a biography/sport story), stars, confetti burst.
+- A job / a worker → a pictogram person at a desk; "many jobs" → the pictogram multiplying into a grid; "replaced" → some pictograms morphing into robot icons.
+- "Fear" / "news everywhere" → headline bars stacking and shaking, a warning icon pulsing, a stress line rising.
 
-Use real images and logos whenever the narration names something concrete. A plain photo + caption is a slideshow.
+Use real logos when a brand is named, and real photos when the line needs proof (a real person, place, moment). Otherwise explain it with graphics. A plain photo + caption is a slideshow — and a video made mostly of photos is not motion graphics.
 
 ## 5. Layout (9:16)
 
@@ -60,6 +77,8 @@ Use real images and logos whenever the narration names something concrete. A pla
 - Font: IBM Plex Sans Arabic (loaded in the kit). Weight 500 for body captions, 600 for punch lines.
 - Typing effect: slice by code points (`Array.from(text)`); partial words look natural.
 - Code/LTR snippets with Arabic strings show bidi glitches — use English strings inside code.
+- **Every element that contains Arabic needs its own `direction: 'rtl'`** — pills, chips, labels and badges too, not only captions. Without it, a trailing "…" or "؟" jumps to the start of the text ("…المكتب فاضي" instead of "المكتب فاضي…").
+- Photo inside giant letters (`backgroundClip: 'text'`): put the background and the clip on **each word's own element**. If the clip is on a parent and the children have `transform` or `opacity` (as every animated word does), the text renders invisible.
 
 ## 7. Transitions between flat scenes (when not using the world camera)
 
@@ -74,8 +93,10 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 - A hard impact sound on a logo reveal.
 - Only "put a photo, then a ruler" — not enough explanation per line.
 - Showing elements then removing them without camera movement.
-- A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) with no real photos — "primitive, no images supporting what is said".
+- A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) — "primitive, nothing visual supporting what is said".
+- The opposite: a photo in almost every scene (collage, photo card, photo inside letters…) for a concept topic — "too many photos, it isn't motion graphics anymore". Photos only where the idea needs them.
 - Transitions that are almost all the same slide / whip pan.
+- Many separate elements stacked vertically and shown at once (icon + sentence + a 4-row list in 2–3 s) — "the viewer doesn't know where to look". One focal point at a time (§3b).
 - A style reference picked by keyword (e.g. an AI product-UI launch for a video about people's fear of losing jobs) that has nothing to do with the idea.
 - Music with vocals or spoken words under on-screen text.
 
@@ -117,3 +138,18 @@ Plan the transition into every scene in the storyboard. No type more than twice 
 - **Hard cut on the beat** — clean cuts timed to the music are professional too; use for energy changes.
 
 Use the reference's own transitions as the first choice wherever they fit; the list above fills the rest.
+
+## 12. Graphic building blocks — explaining without a photo
+
+The base of a motion-graphics video. Build these as SVG/divs in the video's palette, in one consistent style (line weight, corner radius, colours):
+
+- **Pictograms / isotype**: a simple person, desk, building, robot, coin… Show quantity and change with them — one becomes a row, a row becomes a crowd, some turn into another icon.
+- **Icon morph**: one icon turns into the next (briefcase → robot head → lightbulb) with `interpolatePath` or a scale/rotate swap behind a mask — it carries the story without words.
+- **Designed illustration**: a small scene (desk, lamp, laptop, figure) drawn as flat shapes, assembled piece by piece with staggered pops, then the camera moves through it.
+- **Self-drawing line art**: outlines that draw themselves (`strokeDashoffset`), then fill with colour.
+- **Charts that act**: bars that grow, a line that climbs then dips, a pie that splits, a counter — one value highlighted in the accent colour.
+- **Maps & timelines**: an outline that draws, a dot that travels, years that tick by.
+- **Shapes as actors**: a circle that grows into a planet, splits in two, becomes a button; blocks that stack, tilt and fall — abstract shapes can say "pressure", "replacement", "growth".
+- **Typography as image**: a key word built from blocks, filled with a pattern, cracked, stamped, or pushed off-screen by another word.
+
+Every scene still gets its own move and its own transition (§10–11). Weave the few photos into these graphics so everything feels like one design.

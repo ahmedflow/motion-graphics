@@ -4,7 +4,18 @@ Titles and thumbnails tell you nothing about motion. Look at real frames.
 
 ## whatships.com (or any page with a `<video>`)
 
-1. Open the page in the browser tool (built-in browser or Claude in Chrome), take a screenshot, click the play overlay once so the video loads.
+1. Open the page in the browser tool (built-in browser or Claude in Chrome). The `<video>` has no `src` until it is played, and clicking the play overlay often opens the original X post instead (a new tab the browser blocks) — and when the browser pane is hidden the video may never load. The reliable way: take the MP4 URL from the page's HTML and load it yourself:
+   ```js
+   const m = document.documentElement.innerHTML.match(/https://proxy.whatships.com/?url=[^"'s]+?.mp4/);
+   const v = document.querySelector('video');
+   v.src = m[0].replace(/&amp;/g, '&'); v.muted = true; v.preload = 'auto';
+   v.load(); v.play().catch(() => {});
+   await new Promise((r) => setTimeout(r, 5000)); v.pause();
+   ({rs: v.readyState, d: v.duration})   // readyState 4 + a finite duration = ready to seek
+   ```
+   Seek with a promise that resolves on `seeked` (plus a timeout), so one `javascript_tool` call never hangs:
+   `window.seek = (t) => new Promise((r) => { v.currentTime = t; v.addEventListener('seeked', () => setTimeout(r, 300), {once: true}); setTimeout(r, 5000); });`
+   To find candidates fast, `https://whatships.com/search-index.json` lists every video (slug, name, meta, searchText) — filter it by words related to the idea instead of scrolling the home page.
 2. Make the video fill the viewport and pause it:
    ```js
    const v = document.querySelector('video');

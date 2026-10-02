@@ -28,9 +28,14 @@ Good places to search (any downloadable track is fine): Pixabay Music, Mixkit, U
 Huge, modern catalogue, free, no attribution needed.
 
 - Search in the browser: `https://pixabay.com/music/search/<words>/` (e.g. `epic cinematic`, `corporate technology`, `lofi chill`, `inspiring piano`), or use the page's Genre / Mood / Duration filters.
-- Open candidate track pages and read the tags, duration and description. "Content ID Registered" tracks are fine to use.
+- Open candidate track pages and read the tags, duration and description. Fetching a track page's HTML (from a pixabay.com tab) gives the MP3 URL (`https://cdn.pixabay.com/download/audio/…mp3?filename=…`) and the tags (`/music/search/<tag>/` links). "Content ID Registered" tracks are fine to use.
 - Track pages play in the browser, so the listening page can simply link to them (`▶ Open & play`).
-- Downloading: Pixabay blocks script downloads (`curl` gets 403). After the user picks one, click **Download** on that track page in the browser (with their OK) and move the file from their Downloads folder into `public/<project>/music.mp3`; if that isn't possible, ask the user to click Download once and tell you where it went.
+- Downloading (after the user's OK): `curl` on the track page gets 403, but the CDN file downloads fine with a browser User-Agent and a Pixabay referer:
+  ```bash
+  curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130" -e "https://pixabay.com/" "<cdn mp3 url>" -o public/<project>/music.mp3
+  file public/<project>/music.mp3   # must say MPEG audio, not HTML
+  ```
+  If that ever fails, click **Download** on the track page in the browser and move the file from the Downloads folder; if that isn't possible either, ask the user to click Download once and tell you where it went.
 
 ## Source — incompetech.com (Kevin MacLeod)
 
@@ -52,6 +57,14 @@ node <skill-dir>/scripts/music-preview.mjs out/music-options.html   "Epic — le
 ```
 
 Each item is `Title|URL|one-line note`. Direct audio URLs get an inline player; page URLs get an "Open & play" button. Then ask the user which number they want (a question tool with the numbered options works well).
+
+## Finding the hits — sync the story to the music
+
+You can't hear the track, but you can measure it. Run this from the project folder (it uses Remotion's bundled ffmpeg):
+```bash
+node <skill-dir>/scripts/music-energy.mjs public/<project>/music.mp3 --seconds 40
+```
+It prints the loudness of every second and marks the **hits** (sudden jumps in energy — a new phrase, the drums coming in, the big chord). Put the story's turn (the reveal, "but here's the truth", the logo) on a hit, and choose `startFrom` so the first hit lands where you need it. Many tracks repeat a phrase every 8 or 16 s, so the hits also tell you a natural scene length.
 
 ## Using the track in Remotion
 
@@ -88,17 +101,55 @@ If the user supplies their own music file, put it in `public/<project>/` and rem
 
 ## SFX set
 
-Pass `--sfx` to also write a small soft set: `key.wav` (soft keyboard tap), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`. You can synthesize other sounds in the same way if a scene needs one.
+Pass `--sfx` to also write a soft palette: `pop.wav` (element appears), `tick.wav` (counter / small step), `check.wav` (done / correct), `thud.wav` (soft stamp, something lands), `shimmer.wav` (idea, positive turn, sparkle), `riser.wav` (1.5 s tension build into a cut), `swipe.wav` (quick swish for wipes and sliding cards), `whoosh.wav` (bigger camera move / zoom-through), `click.wav`, `key.wav` (soft keyboard tap), `send.wav`, `ding.wav` (notification), `reveal.wav` (swell + chime — real logo reveals only). You can synthesize other sounds in the same way if a scene needs one. Having a file in the set is not a reason to use it — each video picks only the sounds its own moments need.
+
+## Sound design — what each moment sounds like
+
+Sound effects are part of explaining the idea, not decoration. A good motion-graphics reel uses a fair number of them — but each one is attached to something the viewer *sees happening*, chosen for what that action means, soft, and with room around it. Users disliked both extremes: sounds back to back on every little thing ("headache") and a near-silent video where nothing the graphics do is heard.
+
+**Plan it in the storyboard**: add a **Sound** column — for each scene, the one or two actions that deserve a sound and which sound. Typical density for a ~30 s reel: **about 6–12 effects**, roughly one per scene beat that has a meaningful action.
+
+**Match the sound to the meaning**:
+
+| What happens on screen | Sound |
+|---|---|
+| A key element appears / pops in | `pop` (soft) |
+| A number lands, a step advances | `tick` (once at the end, not per digit) |
+| Something is done, correct, checked | `check` |
+| A stamp, a heavy word, something falls into place | `thud` |
+| An idea, a positive turn, a sparkle | `shimmer` |
+| Tension builds into a cut / reveal | `riser` ending exactly on the cut |
+| A wipe, a card slides, a page turns | `swipe` |
+| A big camera move, zoom-through | `whoosh` |
+| A notification, an alert | `ding` |
+| A real logo / brand reveal | `reveal` |
+
+**Where sounds come from — pick per need**:
+1. The generated palette above (`synth-audio.mjs --sfx`) — consistent, soft, no licence questions.
+2. **Build a custom sound** when the idea calls for one the palette doesn't have (a heartbeat for anxiety, paper cracking, a cash register, a camera shutter, a clock ticking): write a small synth function the same way (`one('heartbeat.wav', sec, (x) => …)` in a copy of the script — sine/noise, filter, envelope with a soft attack) and generate it into `public/<project>/`.
+3. **A library sound** when realism matters (a real crowd, rain, a typewriter): Pixabay Sound Effects (`https://pixabay.com/sound-effects/search/<words>/`, no attribution; same download trick as the music). Listen-proof it by reading the title/tags/duration; keep it short and trim/fade it in Remotion.
+
+**Keep it pleasant — the rules that stop it from being annoying**:
+- **Gap**: at least ~0.4 s between two effects; never two effects starting within the same moment.
+- **Groups get one sound, not one each**: ten icons popping in = one `pop` (or a soft swipe) for the group; at most 3 quiet ticks for 3 clearly separate steps.
+- **Same sound at most ~3 times** in a video, and vary its volume slightly if repeated.
+- **Volume**: effects sit under the music — usually 0.15–0.35 (music 0.6–0.7); impacts like `thud` no louder than the music.
+- **Never on top of a musical hit** — the music's hit is already the accent; place the effect just before it (a riser into it) or leave it.
+- **No default ending sound**: the music ends the video.
+- **Before rendering, list all effects** with their frame, sound and the action they belong to; check the gaps and counts above, then render.
 
 ## How to use sound
 
-The idea is simple: **a sound should earn its place.** Use it when it helps the viewer understand what's happening (a button being pressed, a message sent, something completing, a counter landing on its number) or when it makes a moment feel more polished (a logo reveal, a key transition). Leave it out when it would just be decoration.
+The idea is simple: **a sound should earn its place.** Use it when it helps the viewer understand what's happening (a button being pressed, a message sent, something completing, a counter landing on its number) or when it makes a moment feel more polished (an actual logo reveal, a key transition). Leave it out when it would just be decoration.
+
+**No default ending sound.** Don't put a swell/chime/hit on the last scene by habit — a user noticed the same ending sound in every video. The ending belongs to the music: land the final scene on the track's own hit or final chord (`music-energy.mjs`) and let the music finish it. Use `reveal.wav` only when the video really ends on a logo/brand reveal, and never stack an effect on top of a musical hit. Don't reuse the same set of effects in the same places from video to video; decide per video.
 
 What made users' videos annoying was sounds stacked on top of each other or firing one after another on every little thing — every word, every item, every move. Give the video room to breathe: let the music carry the in-between moments, and keep effects soft so they sit under the music rather than on top of it.
 
 Practical notes from user feedback:
 - Typing: a fast click on every letter gets irritating quickly; something softer and sparser (or just the music) works better.
-- Logo reveal: a soft swell + gentle chime feels premium; a hard impact feels cheap.
+- Logo reveal (only when there is a real logo): a soft swell + gentle chime feels premium; a hard impact feels cheap.
+- The final scene of a story / explainer: no effect — the music's own hit or final chord is the ending.
 - With a voiceover, the voice is the star — keep effects rare and away from the words.
 - If the user says the sound is annoying, look at how many effects there are and how close together they are, not only the volume.
 
