@@ -32,6 +32,21 @@ But the world camera is **one tool, not the whole video**. A video where every s
 
 Don't zoom on every shot for its own sake; every camera move should follow the narration.
 
+## 3b. One focal point at a time
+
+At any moment the viewer should know exactly where to look. The failure users keep spotting: a scene that stacks many separate elements vertically — an icon, a sentence, then a list of 4–5 rows — all appearing and leaving within 2–3 seconds. Nothing gets read; it feels busy.
+
+- **Count the new things per beat**: at most one new focal element at a time (one word, one row, one number, one icon). Everything else on screen is either already read (dimmed, smaller, pushed back) or not there yet.
+- **Give each item its own moment**: about 0.7–1.2 s per item that should be read. If a list has more items than the scene has time for, cut items (3 are usually enough) or lengthen the scene — never squeeze.
+- **Ways to keep focus on a list / stack of items** (pick per scene, vary them):
+  - **Camera rides the list**: show the list big (scale 1.2–1.6) and move it so the current item sits at the same spot on screen; dim the others (opacity ~0.25) and fade the edges into the background.
+  - **One at a time, centre stage**: each item comes in alone, big, in the centre; when it's done it shrinks and moves to a small pile/row at the side, and the next one takes the centre.
+  - **Zoom in → zoom out**: push in on item 1, then 2, then 3; pull out at the end to show all of them together as the payoff.
+  - **Pop out of the card**: the full list stays small; the current item lifts out of it (scale up, shadow, slight tilt) and goes back when done.
+  - **Swap in place**: a single slot where items replace each other (the word above changes with them — "يكتب…" → "يصمّم…" → "يحسب.").
+- **Pair text with what it describes**: if a headline and a visual say the same thing, show them in sequence or tie them (the verb changes with the row being ticked), not as two competing blocks.
+- Captions and the visual should not both be "new" in the same instant — let the caption land, then the visual acts (or the reverse).
+
 ## 4. Explain every line visually
 
 For each spoken phrase, ask: what picture would make a viewer *understand* this sentence with the sound off?
@@ -81,6 +96,7 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 - A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) — "primitive, nothing visual supporting what is said".
 - The opposite: a photo in almost every scene (collage, photo card, photo inside letters…) for a concept topic — "too many photos, it isn't motion graphics anymore". Photos only where the idea needs them.
 - Transitions that are almost all the same slide / whip pan.
+- Many separate elements stacked vertically and shown at once (icon + sentence + a 4-row list in 2–3 s) — "the viewer doesn't know where to look". One focal point at a time (§3b).
 - A style reference picked by keyword (e.g. an AI product-UI launch for a video about people's fear of losing jobs) that has nothing to do with the idea.
 - Music with vocals or spoken words under on-screen text.
 

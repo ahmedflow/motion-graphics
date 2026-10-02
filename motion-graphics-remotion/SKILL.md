@@ -135,7 +135,7 @@ The graphics carry the video: build each graphic scene with layers and motion (s
 
 Use the kit in `src/kit/` (copied by setup). It already contains: easing presets, `Caption` (word-by-word mask reveal, RTL-safe), `Photo` (rounded frame, mask reveal, slow drift, optional outline), `Hair` (self-drawing line), `Num`, `World`/`Board`/camera keyframes, `Sfx`, and `Backdrop`.
 
-Read `references/motion-craft.md` before writing scenes — it holds the rules that make the difference between amateur and pro (camera on one world canvas, whip pans, push-ins, easing, durations, what never to do).
+Read `references/motion-craft.md` before writing scenes — it holds the rules that make the difference between amateur and pro (camera on one world canvas, **one focal point at a time** (§3b), whip pans, push-ins, easing, durations, what never to do).
 
 Before timing the scenes, run `scripts/music-energy.mjs` on the chosen track and put the story's turn on one of its hits (`references/audio.md`).
 
@@ -145,7 +145,7 @@ Sound: the music carries the video, and sound effects are used with judgment —
 
 1. `npx tsc -p .` must pass.
 2. Render stills at key frames (one per phrase at `--scale=0.3`) and **look at them**: overlaps, text clipped by the edge, things off-screen, captions colliding with content. Fix before the full render.
-   Then judge them honestly as a viewer, next to your screenshots of the reference: Would this frame stop someone scrolling? Is it mostly empty space or plain text? Does it read as motion graphics (designed, moving shapes and type) — or as a photo slideshow? Does it look as rich as the reference? Also render 3–4 stills *inside* each transition — if most transitions look like the same slide/pan, redo them. Fix weak scenes before rendering; don't deliver something you'd call "fine".
+   Then judge them honestly as a viewer, next to your screenshots of the reference: Where does the eye go first — is there exactly one place, or several elements competing (a stack of separate texts/rows/icons appearing together)? If several, apply `references/motion-craft.md` §3b. Would this frame stop someone scrolling? Is it mostly empty space or plain text? Does it read as motion graphics (designed, moving shapes and type) — or as a photo slideshow? Does it look as rich as the reference? Also render 3–4 stills *inside* each transition — if most transitions look like the same slide/pan, redo them. Fix weak scenes before rendering; don't deliver something you'd call "fine".
 3. Render **straight into the user's working folder** (the folder the session was opened in), not only into the project's `out/`:
    `npx remotion render <CompositionId> "<user's working folder>/<name>.mp4"`
    The user picked that folder on purpose and expects the video there — a video left only in `C:\Projects\...\out` counts as not delivered. A single MP4 is fine in a cloud-synced folder; only the project (`node_modules`) must stay out of it. Re-renders after changes go to the same place (overwrite, or `<name>-v2.mp4` if the user wants to keep versions).
