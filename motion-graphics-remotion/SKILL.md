@@ -95,7 +95,7 @@ Rules that come from users rejecting finished videos — one for being "just tex
 
 **Ask first who writes it.** Before writing anything, ask (as a choice): "Shall I write the storyboard, or would you like to write it yourself?" If they write it, take theirs as the plan (and only suggest additions if a line has no visual).
 
-**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen (**the graphic idea**) · **photo (only if needed — what exactly it shows and why the scene needs it)** · **creative move + transition into the scene** · **UI component (21st.dev)** · camera — in the user's language. The photo column is "—" for most scenes of a concept video; above the table, write the photo budget and why. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
+**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen (**the graphic idea**) · **photo (only if needed — what exactly it shows and why the scene needs it)** · **creative move + transition into the scene** · **UI component (21st.dev)** · **sound (which effect on which action, or —)** · camera — in the user's language. The photo column is "—" for most scenes of a concept video; above the table, write the photo budget and why. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
 
 Then ask for approval **as a choice with two options**, not as an open question:
 1. Good — start building
@@ -139,7 +139,7 @@ Read `references/motion-craft.md` before writing scenes — it holds the rules t
 
 Before timing the scenes, run `scripts/music-energy.mjs` on the chosen track and put the story's turn on one of its hits (`references/audio.md`).
 
-Sound: the music carries the video, and sound effects are used with judgment — add one where it helps explain what's happening or makes a moment feel more professional, and leave it out where it would just be noise. Avoid piling sounds up back to back; that's what makes a video tiring to watch. Details in `references/audio.md`.
+Sound: the music carries the video, and sound effects help explain it — plan them in the storyboard's **Sound** column: about 6–12 in a 30 s reel, each tied to an action the viewer sees and chosen for its meaning (pop = appears, check = done, thud = lands, shimmer = idea, riser = tension into a cut…). Use the generated palette, build a custom sound when the idea needs one, or take a library sound when realism matters. Keep them soft and spaced (≥0.4 s apart, one sound per group, never on a musical hit, no default ending sound). Details in `references/audio.md`.
 
 ### 7. Check, render, deliver
 

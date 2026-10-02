@@ -94,7 +94,42 @@ If the user supplies their own music file, put it in `public/<project>/` and rem
 
 ## SFX set
 
-Pass `--sfx` to also write a small soft set: `key.wav` (soft keyboard tap), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`. You can synthesize other sounds in the same way if a scene needs one. Having a file in the set is not a reason to use it — each video picks only the sounds its own moments need.
+Pass `--sfx` to also write a soft palette: `pop.wav` (element appears), `tick.wav` (counter / small step), `check.wav` (done / correct), `thud.wav` (soft stamp, something lands), `shimmer.wav` (idea, positive turn, sparkle), `riser.wav` (1.5 s tension build into a cut), `swipe.wav` (quick swish for wipes and sliding cards), `whoosh.wav` (bigger camera move / zoom-through), `click.wav`, `key.wav` (soft keyboard tap), `send.wav`, `ding.wav` (notification), `reveal.wav` (swell + chime — real logo reveals only). You can synthesize other sounds in the same way if a scene needs one. Having a file in the set is not a reason to use it — each video picks only the sounds its own moments need.
+
+## Sound design — what each moment sounds like
+
+Sound effects are part of explaining the idea, not decoration. A good motion-graphics reel uses a fair number of them — but each one is attached to something the viewer *sees happening*, chosen for what that action means, soft, and with room around it. Users disliked both extremes: sounds back to back on every little thing ("headache") and a near-silent video where nothing the graphics do is heard.
+
+**Plan it in the storyboard**: add a **Sound** column — for each scene, the one or two actions that deserve a sound and which sound. Typical density for a ~30 s reel: **about 6–12 effects**, roughly one per scene beat that has a meaningful action.
+
+**Match the sound to the meaning**:
+
+| What happens on screen | Sound |
+|---|---|
+| A key element appears / pops in | `pop` (soft) |
+| A number lands, a step advances | `tick` (once at the end, not per digit) |
+| Something is done, correct, checked | `check` |
+| A stamp, a heavy word, something falls into place | `thud` |
+| An idea, a positive turn, a sparkle | `shimmer` |
+| Tension builds into a cut / reveal | `riser` ending exactly on the cut |
+| A wipe, a card slides, a page turns | `swipe` |
+| A big camera move, zoom-through | `whoosh` |
+| A notification, an alert | `ding` |
+| A real logo / brand reveal | `reveal` |
+
+**Where sounds come from — pick per need**:
+1. The generated palette above (`synth-audio.mjs --sfx`) — consistent, soft, no licence questions.
+2. **Build a custom sound** when the idea calls for one the palette doesn't have (a heartbeat for anxiety, paper cracking, a cash register, a camera shutter, a clock ticking): write a small synth function the same way (`one('heartbeat.wav', sec, (x) => …)` in a copy of the script — sine/noise, filter, envelope with a soft attack) and generate it into `public/<project>/`.
+3. **A library sound** when realism matters (a real crowd, rain, a typewriter): Pixabay Sound Effects (`https://pixabay.com/sound-effects/search/<words>/`, no attribution; same download trick as the music). Listen-proof it by reading the title/tags/duration; keep it short and trim/fade it in Remotion.
+
+**Keep it pleasant — the rules that stop it from being annoying**:
+- **Gap**: at least ~0.4 s between two effects; never two effects starting within the same moment.
+- **Groups get one sound, not one each**: ten icons popping in = one `pop` (or a soft swipe) for the group; at most 3 quiet ticks for 3 clearly separate steps.
+- **Same sound at most ~3 times** in a video, and vary its volume slightly if repeated.
+- **Volume**: effects sit under the music — usually 0.15–0.35 (music 0.6–0.7); impacts like `thud` no louder than the music.
+- **Never on top of a musical hit** — the music's hit is already the accent; place the effect just before it (a riser into it) or leave it.
+- **No default ending sound**: the music ends the video.
+- **Before rendering, list all effects** with their frame, sound and the action they belong to; check the gaps and counts above, then render.
 
 ## How to use sound
 
