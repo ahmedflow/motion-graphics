@@ -35,16 +35,18 @@ Don't zoom on every shot for its own sake; every camera move should follow the n
 ## 4. Explain every line visually
 
 For each spoken phrase, ask: what picture would make a viewer *understand* this sentence with the sound off?
-- Place → map outline drawing itself + pin drop + card with a real photo of the place.
+- Place → map outline drawing itself + pin drop (+ one real photo of the place only if the story is about that place).
 - "Doctors said…" → a medical report filling in line by line, with the key diagnosis highlighted.
 - "won't grow" → growth chart: normal curve dashed, his curve flattening, an arrow showing the gap. Bring it back at the end with the curve breaking through.
 - Club / brand / country name → the real crest / logo / flag, popped in with a ring.
 - A number → a counter that counts up; a count of items → the items themselves appearing one by one, then a pull-out with "×8".
 - A date or first event → a timeline with a ball/dot travelling to the year, plus a small chip with the exact date and opponent.
 - A signing / contract → the object (napkin, paper) with a pen drawing the signature (`getPointAtLength` from `@remotion/paths` to move the pen tip).
-- A trophy / win → real photo of the trophy in a medallion, stars, confetti burst.
+- A trophy / win → drawn trophy in a medallion (or the real photo in a biography/sport story), stars, confetti burst.
+- A job / a worker → a pictogram person at a desk; "many jobs" → the pictogram multiplying into a grid; "replaced" → some pictograms morphing into robot icons.
+- "Fear" / "news everywhere" → headline bars stacking and shaking, a warning icon pulsing, a stress line rising.
 
-Use real images and logos whenever the narration names something concrete. A plain photo + caption is a slideshow.
+Use real logos when a brand is named, and real photos when the line needs proof (a real person, place, moment). Otherwise explain it with graphics. A plain photo + caption is a slideshow — and a video made mostly of photos is not motion graphics.
 
 ## 5. Layout (9:16)
 
@@ -76,7 +78,8 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 - A hard impact sound on a logo reveal.
 - Only "put a photo, then a ruler" — not enough explanation per line.
 - Showing elements then removing them without camera movement.
-- A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) with no real photos — "primitive, no images supporting what is said".
+- A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) — "primitive, nothing visual supporting what is said".
+- The opposite: a photo in almost every scene (collage, photo card, photo inside letters…) for a concept topic — "too many photos, it isn't motion graphics anymore". Photos only where the idea needs them.
 - Transitions that are almost all the same slide / whip pan.
 - A style reference picked by keyword (e.g. an AI product-UI launch for a video about people's fear of losing jobs) that has nothing to do with the idea.
 - Music with vocals or spoken words under on-screen text.
@@ -119,3 +122,18 @@ Plan the transition into every scene in the storyboard. No type more than twice 
 - **Hard cut on the beat** — clean cuts timed to the music are professional too; use for energy changes.
 
 Use the reference's own transitions as the first choice wherever they fit; the list above fills the rest.
+
+## 12. Graphic building blocks — explaining without a photo
+
+The base of a motion-graphics video. Build these as SVG/divs in the video's palette, in one consistent style (line weight, corner radius, colours):
+
+- **Pictograms / isotype**: a simple person, desk, building, robot, coin… Show quantity and change with them — one becomes a row, a row becomes a crowd, some turn into another icon.
+- **Icon morph**: one icon turns into the next (briefcase → robot head → lightbulb) with `interpolatePath` or a scale/rotate swap behind a mask — it carries the story without words.
+- **Designed illustration**: a small scene (desk, lamp, laptop, figure) drawn as flat shapes, assembled piece by piece with staggered pops, then the camera moves through it.
+- **Self-drawing line art**: outlines that draw themselves (`strokeDashoffset`), then fill with colour.
+- **Charts that act**: bars that grow, a line that climbs then dips, a pie that splits, a counter — one value highlighted in the accent colour.
+- **Maps & timelines**: an outline that draws, a dot that travels, years that tick by.
+- **Shapes as actors**: a circle that grows into a planet, splits in two, becomes a button; blocks that stack, tilt and fall — abstract shapes can say "pressure", "replacement", "growth".
+- **Typography as image**: a key word built from blocks, filled with a pattern, cracked, stamped, or pushed off-screen by another word.
+
+Every scene still gets its own move and its own transition (§10–11). Weave the few photos into these graphics so everything feels like one design.

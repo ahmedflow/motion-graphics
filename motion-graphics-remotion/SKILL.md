@@ -42,7 +42,7 @@ The style reference is the user's decision, because it sets the whole look of th
 > 2. You pick for me → the user has handed you the decision, so make it: browse whatships, choose the **one** video that fits their idea best, and carry on. Tell them in one line which one you picked (with its link) and why it fits *their idea*. Don't come back with a list of options or ask them to choose again — that's exactly what they asked you not to do. They can still say "change it" later.
 
 **How to pick a reference that fits the idea** (a user called a pick "bad, nothing to do with my idea" when it was chosen only because the topic mentioned AI):
-- Match the reference to the *kind of story and its emotion*, not to a keyword. A social / human topic (fear, jobs, society, a person's story, history, a cause) needs a reference that is **story-driven motion graphics** — real photos or footage, kinetic typography, bold graphic transitions, a mood arc. A product-UI launch video (a chat box being typed into, a doc scrolling) only fits when the video is literally about a product or an interface.
+- Match the reference to the *kind of story and its emotion*, not to a keyword. A social / human topic (fear, jobs, society, a person's story, history, a cause) needs a reference that is **story-driven motion graphics** — kinetic typography, designed shapes / icons / illustrations, bold graphic transitions, a mood arc (photos only as accents). A product-UI launch video (a chat box being typed into, a doc scrolling) only fits when the video is literally about a product or an interface.
 - Filter the gallery by category (e.g. **MOTION**) and search for words related to the idea; look beyond the first screen.
 - Actually sample frames of **at least 4 candidates** (technique in `references/study-a-reference.md`) before deciding. Skip videos whose look depends on 3D renders or live-action footage that can't be rebuilt in code, and pages without a playable video.
 - Write one line for yourself: "this idea needs ___ (emotion, imagery, energy); this reference gives ___". If you can't fill it convincingly, keep looking.
@@ -75,17 +75,27 @@ If the user gives a voiceover file, timing comes from the audio — run `node <s
 
 ### 4. Storyboard before building
 
-Write a short storyboard: one line per spoken phrase (or per beat if no VO) → what the viewer sees, which real image/logo/icon, what moves and how the camera moves. Each line of narration deserves its own visual idea that *explains* it (a map + pin for a birthplace, a medical report + growth chart for "doctors said he won't grow", a crest for a club name, a counter for a number). This is where most of the quality comes from.
+Write a short storyboard: one line per spoken phrase (or per beat if no VO) → what the viewer sees, which graphic (and, only where needed, which real image/logo), what moves and how the camera moves. Each line of narration deserves its own visual idea that *explains* it (a map + pin for a birthplace, a medical report + growth chart for "doctors said he won't grow", a crest for a club name, a counter for a number). This is where most of the quality comes from.
 
-Rules that come from users rejecting a finished video ("just text and primitive cards, no images, every transition is a slide"):
-- **Real imagery is the default.** Any topic about the real world (people, jobs, society, places, history, sport, events) needs real photos or stock footage in **most scenes** — e.g. for "AI taking jobs": a worker at a desk, a factory robot arm, a crowded office, a newspaper headline, a person learning on a laptop. Text-only scenes or drawn cards are the exception (a title, a number), never the bulk of the video.
-- **No filler UI.** Don't invent interfaces (chat boxes, notification lists, profile cards, dashboards) to fill a scene. Use UI only when the line is literally about using a product/interface. Drawn silhouettes / placeholder avatars in place of people are not acceptable — use a real photo.
+Rules that come from users rejecting finished videos — one for being "just text and primitive cards, every transition is a slide", another for being "too many photos — that's a photo slideshow, not motion graphics":
+- **Motion graphics is the base.** Most scenes are *designed graphics that move*: kinetic typography, shapes that morph, icons and pictograms that multiply or transform, vector illustrations, self-drawing line art, maps, timelines, charts and counters (toolbox in `references/motion-craft.md` §10 and §12). This is not "text on cards": every graphic scene needs a visual idea that explains the line, built with care (layers, depth, detail, the reference's polish).
+- **Photos are an accent, used on purpose.** Put a real photo only where the idea needs proof that a graphic can't give — a real person, a real place, a historical moment, a real object, a "this actually happened" beat. Ask for every photo: "does this scene lose its meaning without it?" If not, draw it.
+- **Decide the photo budget from the idea, before the storyboard, and tell the user** (e.g. "about 2 photos — the topic is a concept, so the rest is graphics"):
+
+  | Kind of idea | Photos (≈30 s video) |
+  |---|---|
+  | Concept / social / explainer / tips (fear of AI, saving money, productivity, how something works) | **0–3**, each tied to one specific beat |
+  | Product / app launch | 0–2 — the product's own screens/UI carry it |
+  | Story of a real person, a country / city / club, a historical event or era | **more — up to about half the scenes**, because the real faces, places and moments *are* the content; still animated inside a graphic system (timeline, map, frames, cut-outs) |
+
+  If the user asks for more or fewer photos, the user wins.
+- **No filler.** Don't invent interfaces (chat boxes, notification lists, dashboards) or add decorative stock photos to fill a scene. UI only when the line is literally about using a product. People drawn in a consistent designed vector style are fine in graphic scenes; grey placeholder avatars are not.
 - **Every scene gets its own creative motion idea and its own transition**, chosen from the toolbox in `references/motion-craft.md` (§10–11). No transition type may appear more than twice in a video, and slides/pans may be at most a third of all transitions.
 - Build an emotional arc that the visuals show (e.g. tension → turn → hope), not only the captions.
 
 **Ask first who writes it.** Before writing anything, ask (as a choice): "Shall I write the storyboard, or would you like to write it yourself?" If they write it, take theirs as the plan (and only suggest additions if a line has no visual).
 
-**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen · **real image / footage (what exactly it shows)** · **creative move + transition into the scene** · **UI component (21st.dev)** · camera — in the user's language. The image column is "—" only for a pure title or number beat. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
+**When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen (**the graphic idea**) · **photo (only if needed — what exactly it shows and why the scene needs it)** · **creative move + transition into the scene** · **UI component (21st.dev)** · camera — in the user's language. The photo column is "—" for most scenes of a concept video; above the table, write the photo budget and why. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
 
 Then ask for approval **as a choice with two options**, not as an open question:
 1. Good — start building
@@ -93,9 +103,9 @@ Then ask for approval **as a choice with two options**, not as an open question:
 
 If you use a question tool, the storyboard goes in the message *before* the question.
 
-### 5. Gather assets — real images and UI components
+### 5. Gather assets — UI components, icons/illustrations, and the few photos the idea needs
 
-Both parts are required. A storyboard that "needs no photos" is almost always a weak storyboard — go back to step 4 rather than skipping 5b.
+5a is required for every UI scene. 5b covers the graphics plus only the photos in the storyboard's photo column — a concept video may need none or two; don't add more at this stage.
 
 #### 5a. 21st.dev components (required for every scene with UI)
 
@@ -108,9 +118,10 @@ This is your call, not the user's: **don't ask the user to approve components or
 3. Only draw a UI yourself if you genuinely searched and found nothing that fits that scene. Drawing UI from scratch without searching first is not allowed.
 4. Keep a note for the delivery summary (step 7): scene → component name, author, link — or, for a scene you drew yourself, what you searched for.
 
-#### 5b. Real images, footage, logos, icons (required)
+#### 5b. Graphics, logos, and only the photos the storyboard asks for
 
-- **Search for every row of the image column.** Unsplash / Pexels / Pixabay (photos *and* short stock video clips — no attribution needed) for generic subjects like people working, offices, robots, cities; Wikimedia Commons for specific people, places and events. Aim for 2–3 good candidates per scene, then pick the best.
+- **Graphics first**: icons and pictograms as inline SVG (e.g. Lucide, Tabler — MIT/ISC, no credit needed), illustrations drawn as SVG in the video's palette, or from free sets that need no attribution (e.g. unDraw). Keep one consistent style across the video.
+- **Search only for the rows of the photo column.** Unsplash / Pexels / Pixabay (photos *and* short stock video clips — no attribution needed) for generic subjects like people working, offices, robots, cities; Wikimedia Commons for specific people, places and events. Aim for 2–3 good candidates per scene, then pick the best.
 - **Real photos / logos / flags — every image must show exactly what that line says.** Before searching, write for each storyboard line the specific image it needs (who/what, which moment, place, era — e.g. "Messi lifting the World Cup, Qatar 2022", not "Messi"). Search with specific queries (`node <skill-dir>/scripts/commons-search.mjs "query"`, plus Unsplash / Pexels in the browser for generic topics), open every candidate and look at it, and only keep it if it clearly shows that subject. A random or loosely related photo is worse than none: if nothing fits, use the real logo, a drawn illustration, an icon or big text for that line instead. When proposing images, say which line each one is for and why it matches. Details in `references/assets-and-rights.md`.
 - **Always ask before downloading**: list each file (what it is, which line it serves, source, license, size) and wait for a yes.
 - **No credits or sources inside the video.** Don't add a credits/sources end card, fine print or watermark-style attributions — users find it annoying and it ruins the ending. Keep sources in `public/<project>/CREDITS.md` and, if the video will be published and something needs attribution, give the user a ready-to-paste credit line for the post caption / description (that satisfies CC BY). Prefer sources that need no attribution at all (Pixabay, Unsplash, Pexels, public-domain / CC0 files).
@@ -118,9 +129,9 @@ This is your call, not the user's: **don't ask the user to approve components or
 
 ### 6. Build
 
-Before writing the first scene, check: does every UI scene have its 21st.dev component from 5a, or a stated reason it doesn't? Does every non-title scene have its real image/footage from 5b? Does every scene have a distinct creative move and transition from the storyboard? If not, go back.
+Before writing the first scene, check: does every UI scene have its 21st.dev component from 5a, or a stated reason it doesn't? Is every graphic scene a real visual idea (not text on a card)? Does every photo have a reason, and is the photo count within the budget? Does every scene have a distinct creative move and transition from the storyboard? If not, go back.
 
-Photos must be *animated creatively*, not just placed: masked reveals through shapes or giant letters, cut-out subject over a graphic background, split-screens, photo grids that assemble, duotone/colour-graded treatments matching the palette, parallax layers, zoom-through into the next scene. See `references/motion-craft.md` §10.
+The graphics carry the video: build each graphic scene with layers and motion (shapes that morph, icons that multiply, lines that draw, type that transforms) — see `references/motion-craft.md` §10 and §12. The few photos must be *animated creatively* too, not just placed, and woven into the graphics: masked reveals through shapes or giant letters, cut-out subject over a graphic background, split-screens, photo grids that assemble, duotone/colour-graded treatments matching the palette, parallax layers, zoom-through into the next scene. See `references/motion-craft.md` §10.
 
 Use the kit in `src/kit/` (copied by setup). It already contains: easing presets, `Caption` (word-by-word mask reveal, RTL-safe), `Photo` (rounded frame, mask reveal, slow drift, optional outline), `Hair` (self-drawing line), `Num`, `World`/`Board`/camera keyframes, `Sfx`, and `Backdrop`.
 
@@ -134,7 +145,7 @@ Sound: the music carries the video, and sound effects are used with judgment —
 
 1. `npx tsc -p .` must pass.
 2. Render stills at key frames (one per phrase at `--scale=0.3`) and **look at them**: overlaps, text clipped by the edge, things off-screen, captions colliding with content. Fix before the full render.
-   Then judge them honestly as a viewer, next to your screenshots of the reference: Would this frame stop someone scrolling? Is it mostly empty space or plain text? Is there a real image? Does it look as rich as the reference? Also render 3–4 stills *inside* each transition — if most transitions look like the same slide/pan, redo them. Fix weak scenes before rendering; don't deliver something you'd call "fine".
+   Then judge them honestly as a viewer, next to your screenshots of the reference: Would this frame stop someone scrolling? Is it mostly empty space or plain text? Does it read as motion graphics (designed, moving shapes and type) — or as a photo slideshow? Does it look as rich as the reference? Also render 3–4 stills *inside* each transition — if most transitions look like the same slide/pan, redo them. Fix weak scenes before rendering; don't deliver something you'd call "fine".
 3. Render **straight into the user's working folder** (the folder the session was opened in), not only into the project's `out/`:
    `npx remotion render <CompositionId> "<user's working folder>/<name>.mp4"`
    The user picked that folder on purpose and expects the video there — a video left only in `C:\Projects\...\out` counts as not delivered. A single MP4 is fine in a cloud-synced folder; only the project (`node_modules`) must stay out of it. Re-renders after changes go to the same place (overwrite, or `<name>-v2.mp4` if the user wants to keep versions).
