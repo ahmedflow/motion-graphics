@@ -94,17 +94,20 @@ If the user supplies their own music file, put it in `public/<project>/` and rem
 
 ## SFX set
 
-Pass `--sfx` to also write a small soft set: `key.wav` (soft keyboard tap), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`. You can synthesize other sounds in the same way if a scene needs one.
+Pass `--sfx` to also write a small soft set: `key.wav` (soft keyboard tap), `click.wav`, `send.wav`, `ding.wav`, `reveal.wav` (soft swell + chime), `whoosh.wav`. You can synthesize other sounds in the same way if a scene needs one. Having a file in the set is not a reason to use it — each video picks only the sounds its own moments need.
 
 ## How to use sound
 
-The idea is simple: **a sound should earn its place.** Use it when it helps the viewer understand what's happening (a button being pressed, a message sent, something completing, a counter landing on its number) or when it makes a moment feel more polished (a logo reveal, a key transition). Leave it out when it would just be decoration.
+The idea is simple: **a sound should earn its place.** Use it when it helps the viewer understand what's happening (a button being pressed, a message sent, something completing, a counter landing on its number) or when it makes a moment feel more polished (an actual logo reveal, a key transition). Leave it out when it would just be decoration.
+
+**No default ending sound.** Don't put a swell/chime/hit on the last scene by habit — a user noticed the same ending sound in every video. The ending belongs to the music: land the final scene on the track's own hit or final chord (`music-energy.mjs`) and let the music finish it. Use `reveal.wav` only when the video really ends on a logo/brand reveal, and never stack an effect on top of a musical hit. Don't reuse the same set of effects in the same places from video to video; decide per video.
 
 What made users' videos annoying was sounds stacked on top of each other or firing one after another on every little thing — every word, every item, every move. Give the video room to breathe: let the music carry the in-between moments, and keep effects soft so they sit under the music rather than on top of it.
 
 Practical notes from user feedback:
 - Typing: a fast click on every letter gets irritating quickly; something softer and sparser (or just the music) works better.
-- Logo reveal: a soft swell + gentle chime feels premium; a hard impact feels cheap.
+- Logo reveal (only when there is a real logo): a soft swell + gentle chime feels premium; a hard impact feels cheap.
+- The final scene of a story / explainer: no effect — the music's own hit or final chord is the ending.
 - With a voiceover, the voice is the star — keep effects rare and away from the words.
 - If the user says the sound is annoying, look at how many effects there are and how close together they are, not only the volume.
 
