@@ -15,17 +15,24 @@ A track tagged "epic" can still be eerie, comic, too slow, or start with 40 s of
 4. Keep only 3–4 that genuinely fit the brief. If the search returns poor matches, search again with other words rather than offering weak options.
 5. You can't hear music. Say so honestly; the listening page lets the user judge.
 
-## Source 1 — Pixabay Music (try first)
+## Where to look — search widely, pick the best fit
 
-Huge, modern catalogue, free, **no attribution needed**.
+Don't stick to one library. A user complained when the search was limited to one source and then filtered down to only two tracks. Search **several sources** and choose purely on **fit and quality** — the idea, the emotional arc, the energy curve, instrumental.
+
+**Don't reject a track over Content ID / copyright-claim risk** (e.g. Pixabay's "Content ID Registered" label, or a possibly muted post). The video's owner handles publishing and rights themselves. You may mention a known claim risk in one line when presenting the pick, but it never removes a track from the shortlist.
+
+Good places to search (any downloadable track is fine): Pixabay Music, Mixkit, Uppbeat, incompetech, Free Music Archive, Bensound, YouTube Audio Library, or any other site that offers the track as a download. The only limit: use files a site actually offers for download — don't rip commercial songs from streaming services.
+
+## Source — Pixabay Music
+
+Huge, modern catalogue, free, no attribution needed.
 
 - Search in the browser: `https://pixabay.com/music/search/<words>/` (e.g. `epic cinematic`, `corporate technology`, `lofi chill`, `inspiring piano`), or use the page's Genre / Mood / Duration filters.
-- Open candidate track pages and read the tags, duration and description.
-- **Skip tracks marked "Content ID Registered"** — they can trigger copyright claims or muted audio when the video is posted on Instagram / YouTube / TikTok.
+- Open candidate track pages and read the tags, duration and description. "Content ID Registered" tracks are fine to use.
 - Track pages play in the browser, so the listening page can simply link to them (`▶ Open & play`).
 - Downloading: Pixabay blocks script downloads (`curl` gets 403). After the user picks one, click **Download** on that track page in the browser (with their OK) and move the file from their Downloads folder into `public/<project>/music.mp3`; if that isn't possible, ask the user to click Download once and tell you where it went.
 
-## Source 2 — incompetech.com (Kevin MacLeod)
+## Source — incompetech.com (Kevin MacLeod)
 
 ~1,400 produced tracks, free under **CC BY 4.0** (needs a credit line in the post caption — never inside the video). Downloads work directly, and the MP3 links play inline on the listening page.
 
@@ -50,7 +57,7 @@ Each item is `Title|URL|one-line note`. Direct audio URLs get an inline player; 
 
 Tracks are longer than the video: `<Audio src={staticFile('proj/music.mp3')} startFrom={skipFrames} volume={…} />`, fading in over ~0.5 s and out over the last ~1 s. Under a voiceover keep it around 0.15–0.2.
 
-## Source 3 — generated music (fallback)
+## Source — generated music (fallback)
 
 `scripts/synth-audio.mjs` synthesizes everything from math — no licensing questions:
 
