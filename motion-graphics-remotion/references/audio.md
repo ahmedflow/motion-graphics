@@ -8,7 +8,8 @@ Never pick the music silently, and never copy the soundtrack of a previous proje
 
 A track tagged "epic" can still be eerie, comic, too slow, or start with 40 s of nothing. Pick like a music supervisor, not a keyword filter:
 
-1. **Write a one-line brief first**: the feel, the energy curve of the video (e.g. "calm start, builds to a triumphant end"), tempo range, and instruments that fit the topic (tech → electronic/synth/piano; sport → drums/orchestra; luxury → ambient/piano; lifestyle → acoustic/lo-fi).
+1. **Write a one-line brief first**: the feel, the energy curve of the video (e.g. "calm start, builds to a triumphant end"), tempo range, and instruments that fit the topic (tech → electronic/synth/piano; sport → drums/orchestra; luxury → ambient/piano; lifestyle → acoustic/lo-fi). Base it on the *idea and its emotional arc* (e.g. "fear of losing jobs: uneasy, tense start → turns hopeful at the end"), not only on the feel word the user picked — a generic "inspiring piano" was rejected as not fitting the idea.
+1b. **Instrumental only.** Reject any track with vocals, singing, rap, spoken words, vocal chops or choir with lyrics (check genre, tags, title, description; search with the word "instrumental"; on Pixabay skip anything whose tags mention vocal/voice/singer/lyrics). The only exception is the user explicitly asking for a song. If in doubt, choose another track.
 2. **Read each candidate's tags, title and description** and reject anything with a conflicting feel (eerie, unnerving, humorous, dark, horror, comedy, medieval… when that's not the tone), anything whose description suggests a different use, and anything shorter than the video.
 3. **Prefer tracks whose energy starts quickly** — a reel has no time for a long intro (or plan a `startFrom` to skip it).
 4. Keep only 3–4 that genuinely fit the brief. If the search returns poor matches, search again with other words rather than offering weak options.

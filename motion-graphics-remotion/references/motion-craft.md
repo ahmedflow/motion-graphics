@@ -20,6 +20,8 @@ Use **60 fps**. Fast motion at 30 fps looks choppy; 60 fps looks smooth.
 
 The amateur pattern is: element appears, element disappears, next element appears. The pro pattern is a **camera travelling across one big canvas**:
 
+But the world camera is **one tool, not the whole video**. A video where every scene change is the camera panning to the next board reads as "everything is a slide" — users rejected exactly that. Mix camera moves with the creative transitions in §11.
+
 - Lay out each scene as a 1080×1920 "board" at a position on a large world (kit: `World`, `Board`, `camAt`). Put boards next to / below each other in story order.
 - Between scenes, the camera pans to the next board (whip or calm in-out). Elements on the old board don't need to vanish — the camera leaves them.
 - Inside a scene, the camera does something purposeful: push in on the key word/number, tilt down from a report to a chart, track sideways along a timeline or a row of items, pull out to reveal "all 8 of them".
@@ -72,6 +74,10 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 - A hard impact sound on a logo reveal.
 - Only "put a photo, then a ruler" — not enough explanation per line.
 - Showing elements then removing them without camera movement.
+- A video that is mostly text + home-made cards (chat boxes, notification lists, profile cards with drawn avatars) with no real photos — "primitive, no images supporting what is said".
+- Transitions that are almost all the same slide / whip pan.
+- A style reference picked by keyword (e.g. an AI product-UI launch for a video about people's fear of losing jobs) that has nothing to do with the idea.
+- Music with vocals or spoken words under on-screen text.
 
 ## 9. Things users liked
 
@@ -80,3 +86,34 @@ Long soft cross-fade (22 frames, IN_OUT) + slight scale 1 → 1.05. Keep a singl
 - Real logos at the moment they're named.
 - Continuity devices (timeline the camera follows, a curve that reappears at the end).
 - Smooth 60 fps, calm music bed under the voice.
+
+## 10. Creative motion toolbox — use a different idea in every scene
+
+Plain "fade/slide in, hold, slide out" is not motion design. Each scene should have at least one move that makes a viewer think "nice". Pick per scene, don't repeat the same one back to back:
+
+- **Kinetic typography**: words that scale/rotate into place one by one, a key word that grows to fill the frame and becomes the background of the next scene, words stacked in a tight block with mixed weights/sizes, a word that splits or gets crossed out and replaced (animate whole words in Arabic).
+- **Photo inside type / shapes**: a real photo revealed *through* giant letters or a circle/blob mask that expands to full frame.
+- **Cut-out subject**: a person/object photo (PNG with transparent background, or masked) layered over a graphic background, with parallax between layers.
+- **Photo grid / collage that assembles**: many real photos fly in to form a grid or mosaic, then the camera dives into one of them.
+- **Split screen / before–after**: a divider line wipes across one photo to reveal its contrast (e.g. old office → AI office).
+- **Duotone / colour grading**: tint all photos in the video's palette so real imagery and graphics feel like one design.
+- **Shape morph**: a shape morphs into the next (circle → pill → card → full frame) carrying the viewer between scenes (`@remotion/paths` `interpolatePath`).
+- **Data that moves**: counters, bars that grow from the subject in the photo, icons that multiply into a crowd ("1 → 1,000 people").
+- **Line that travels**: a hairline that draws itself across scenes and connects them (timeline, path, signature).
+- **Depth**: layers at different scale speeds (foreground text, mid photo, background shapes), slow 3D tilt of a card/photo (`perspective` + `rotateY` ≤ 12°).
+- **Texture & light**: grain overlay, soft light leaks or a moving gradient behind the subject — subtle, never blur on motion.
+
+## 11. Transition vocabulary — vary it
+
+Plan the transition into every scene in the storyboard. No type more than twice per video; slides/pans at most a third of all transitions.
+
+- **Match cut**: a shape/colour/position in scene A becomes an element of scene B (a circle avatar → the dot of a timeline; a red number → a red bar).
+- **Zoom-through**: push into a letter, a screen, the pupil of an eye, or a window in the photo, coming out in the next scene.
+- **Mask wipe**: the next scene arrives through an expanding shape (circle, diagonal bar, the outline of a word).
+- **Shape morph** (see §10) or **colour-block wipe**: a block of the accent colour sweeps the frame and leaves the next scene behind it.
+- **Split / shutter**: the frame splits into 2–4 strips that slide apart revealing the next scene.
+- **Typography carry**: the last word of a line stays on screen, scales up and becomes the background or title of the next scene.
+- **Whip pan / camera move** on the world canvas (§3) — fine, but only as part of the mix.
+- **Hard cut on the beat** — clean cuts timed to the music are professional too; use for energy changes.
+
+Use the reference's own transitions as the first choice wherever they fit; the list above fills the rest.
