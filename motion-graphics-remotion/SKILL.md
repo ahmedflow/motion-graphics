@@ -17,11 +17,11 @@ Two choices always belong to the user and must be asked every time, even when yo
 
 **Ask the opening questions all at once, at the very start** — right after you start the setup script, before any research. A user was annoyed when the voiceover question came up later, in a second round. A question tool shows at most 4 questions per call, so the first call is always these four:
 1. **Style reference** — pick it themselves on whatships, or you pick (step 2)
-2. **Music feel** — calm / upbeat / lo-fi / minimal tech / cinematic / none (step 3)
+2. **Music** — the 3 feels that fit the idea best (from calm / upbeat / lo-fi / minimal tech / cinematic / none) **plus "I have my own music"** as the 4th option. The user can also type any other feel under "Other".
 3. **Format + length** — 9:16 · 16:9 · 1:1, ~30 s by default
 4. **Voiceover** — none (text + music) / they record it / AI voice (step 3)
 
-Straight after it, a second call with **how to choose the track** (you pick / show me options / I have my own music). Nothing else goes in these rounds: don't ask about the brand's logo or identity (see "Real brands" in step 3); ask about the storyboard only in step 4.
+Straight after it, if they chose a feel, a second call with **how to choose the track** (you pick / show me options). If they chose "I have my own music", skip that call: ask them to send the file or its path, or tell them the exact folder and file name to drop it into (`public/<project>/music.mp3`). Nothing else goes in these rounds: don't ask about the brand's logo or identity (see "Real brands" in step 3); ask about the storyboard only in step 4.
 
 ### 1. Set up the machine and the project
 
@@ -71,7 +71,7 @@ The format, voiceover and music questions were already asked in the opening roun
 - Language of on-screen text (Arabic needs RTL handling — see `references/motion-craft.md`)
 - Voiceover: user records it, AI voice (e.g. ElevenLabs), or none (text + music only). If they need a script, write it — see `references/voiceover.md` for writing scripts and voice-tag advice.
 - **Music — always ask, never assume.** Every video deserves its own soundtrack, so don't silently reuse the music from an earlier project or example. Ask (in the user's language; use a question tool if you have one):
-  1. **The feel**: calm / storytelling, upbeat / energetic, chill / lo-fi, minimal / tech, epic / cinematic, or no music.
+  1. **The feel**: calm / storytelling, upbeat / energetic, chill / lo-fi, minimal / tech, epic / cinematic, or no music — or **"I have my own music"**, which is always one of the offered options. If they pick it, go straight to the "I have my own music" case below.
   2. **How to choose the track**:
      - **"You pick for me"** → choose the best-matching track yourself from the library and tell them in one line which one and why.
      - **"Show me options"** → shortlist 3–4 well-matched tracks and open a listening page with `scripts/music-preview.mjs`, so they play every option in their browser without downloading anything. Never send bare MP3 links — in most browsers they download instead of playing.
