@@ -114,11 +114,9 @@ Rules that come from users rejecting finished videos — one for being "just tex
 
 **When you write it**, put it **in your chat message as readable text** — a numbered list or a small table: time · text / what's said · what's on screen (**the graphic idea**) · **photo (only if needed — what exactly it shows and why the scene needs it)** · **creative move + transition into the scene** · **UI component (21st.dev)** · **sound (which effect on which action, or —)** · camera — in the user's language. The photo column is "—" for most scenes of a concept video; above the table, write the photo budget and why. Fill the UI column for every scene that shows any interface (chat, input box, card, button, list, notification, dashboard, pricing…): write which kind of 21st.dev component you'll look for (e.g. "AI chat — 21st.dev"). Write "—" only when the scene has no UI at all. The user only sees what you write in the message; storyboards kept in your thinking, in a file, or inside collapsed tool output are invisible to them.
 
-Then ask for approval **as a choice with two options**, not as an open question:
-1. Good — start building
-2. Needs changes → the user types what to change; apply it, show the updated storyboard, and ask the same two options again.
+**Then keep going — don't ask for approval.** When the user answered "you write it", that answer already is the go-ahead: show the storyboard in your message and move straight on to step 5 in the same turn. Don't ask "what do you think?", "shall I start?" or offer a "good / needs changes" choice — a user found that second question annoying after they had already handed over the decision. They can read the storyboard while you work and interrupt if they want something changed; if they do, apply it and carry on.
 
-If you use a question tool, the storyboard goes in the message *before* the question.
+The only time you wait is when the user said they will write the storyboard themselves: wait for theirs, then build from it without asking again.
 
 ### 5. Gather assets — UI components, icons/illustrations, and the few photos the idea needs
 
