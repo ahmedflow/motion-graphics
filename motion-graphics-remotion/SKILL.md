@@ -23,6 +23,8 @@ Two choices always belong to the user and must be asked every time, even when yo
 
 Straight after it, if they chose a feel, a second call with **how to choose the track** (you pick / show me options). If they chose "I have my own music", skip that call: ask them to send the file or its path, or tell them the exact folder and file name to drop it into (`public/<project>/music.mp3`). Nothing else goes in these rounds: don't ask about the brand's logo or identity (see "Real brands" in step 3); ask about the storyboard only in step 4.
 
+**Voiceover first, then the video.** If the user answers "they record it" or "AI voice", or says at any point that they have (or will make) a voiceover, the order is fixed: **script → the user makes the audio → you build the video from the audio** (step 3b). Never build on guessed timings and retime to the voice afterwards: a user's video had to squeeze a scene to catch up with the narration and they called it "finished strangely fast". While you wait for the audio, keep doing everything that doesn't depend on timing (setup, reference, logo, music, 21st.dev components, assets), but don't storyboard the timing or build scenes.
+
 ### 1. Set up the machine and the project
 
 1. Check Node.js: `node -v` (needs ≥ 18). If missing, tell the user to install the LTS from https://nodejs.org and come back — don't download installers yourself.
@@ -69,7 +71,7 @@ The format, voiceover and music questions were already asked in the opening roun
 - Format: 9:16 reel (1080×1920, default), 16:9 (1920×1080) or 1:1
 - Length (default 20–40 s)
 - Language of on-screen text (Arabic needs RTL handling — see `references/motion-craft.md`)
-- Voiceover: user records it, AI voice (e.g. ElevenLabs), or none (text + music only). If they need a script, write it — see `references/voiceover.md` for writing scripts and voice-tag advice.
+- Voiceover: user records it, AI voice (e.g. ElevenLabs), or none (text + music only). With a voiceover, follow step 3b before anything is timed or built.
 - **Music — always ask, never assume.** Every video deserves its own soundtrack, so don't silently reuse the music from an earlier project or example. Ask (in the user's language; use a question tool if you have one):
   1. **The feel**: calm / storytelling, upbeat / energetic, chill / lo-fi, minimal / tech, epic / cinematic, or no music — or **"I have my own music"**, which is always one of the offered options. If they pick it, go straight to the "I have my own music" case below.
   2. **How to choose the track**:
@@ -88,9 +90,18 @@ Take the palette from the logo and the site (CSS variables, buttons) and build t
 You may **rebuild the official logo as SVG** to animate it like a pro: draw it on stroke by stroke, split it into pieces that assemble, morph into it, or reveal it through a mask. The rebuild must look exactly like the original (same shapes, proportions, colours). Design a logo yourself only when the brand truly has none, for example an idea that doesn't exist yet or a fictional product. In that case, say so in one line.
 If several brands share the name (e.g. "برق"), pick the one the topic clearly means (country, category). If it is still unclear, show the candidates you found (name + site) in one question; don't fall back to designing.
 
-If the user gives a voiceover file, timing comes from the audio — run `node <skill-dir>/scripts/voice-timings.mjs <file>` to get phrase start/end times, map each phrase to the script, and drive every scene from those numbers.
+### 3b. Voiceover: script first, then the audio, then the build
+
+Only when the video has a voiceover (they record it / AI voice / they already have one). The video is built **on** the audio, so the audio must exist before scenes are timed.
+
+1. **Already have a voiceover file?** Take it first (ask for the file or its path), copy it to `public/<project>/voice.mp3`, and skip to 4. Ask for the script text too, if they have it, to map phrases.
+2. **Need a script?** Write it now, before the storyboard — one short sentence per scene, each with a visual you can show (rules in `references/voiceover.md`). Put it in your message **as a ready-to-paste block**, in the user's language. For an AI voice, give it already tagged for the model they'll use (ElevenLabs v3 tags, settings and pitfalls in `references/voiceover.md`) — don't hand over an untagged script and add tags later in another round. Tell them the exact path to drop the audio into (`public/<project>/voice.mp3`).
+3. **Wait for the audio.** This is the one checkpoint you always wait on. Meanwhile do the timing-free work (reference, logo, music, components, assets). If the user reports a problem with the generated audio (too flat, audible breaths, a misread word), fix the script/tags and hand it back — don't build around a bad take.
+4. **Time everything from the audio**: `node <skill-dir>/scripts/voice-timings.mjs public/<project>/voice.mp3`, map each segment to the script, and write the storyboard (step 4) with real times. Then build each scene for the time its sentence gives it. When a scene's animation needs more room than the sentence (a click, then a result, then a stamp), **add breathing room between sentences** — split the voice into per-sentence chunks and place each one later — instead of speeding the animation up. Technique in `references/voiceover.md` ("Syncing the video to the voice").
 
 ### 4. Storyboard before building
+
+With a voiceover, the storyboard comes **after** the audio (step 3b) and its time column comes from `voice-timings.mjs`, not from estimates.
 
 Write a short storyboard: one line per spoken phrase (or per beat if no VO) → what the viewer sees, which graphic (and, only where needed, which real image/logo), what moves and how the camera moves. Each line of narration deserves its own visual idea that *explains* it (a map + pin for a birthplace, a medical report + growth chart for "doctors said he won't grow", a crest for a club name, a counter for a number). This is where most of the quality comes from.
 
